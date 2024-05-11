@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .register-form {
+            width: 340px;
+            margin: 0 auto;
+            margin-top: 100px;
+            font-size: 15px;
+        }
+        .register-form form {
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .register-form h2 {
+            margin: 0 0 15px;
+        }
+        .form-control, .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-form">
+        <form method="post">
+            {% csrf_token %}
+            <h2 class="text-center">Регистрация</h2>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Имя пользователя" required="required">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Электронная почта" required="required">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Пароль" required="required">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Авторизоваться</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
