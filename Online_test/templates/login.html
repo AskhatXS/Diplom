@@ -11,13 +11,29 @@
     <div class="container right-panel-active">
 
         <div class="container__form container--signup">
-            <form action="#" class="form" id="form1">
-                <h2 class="form__title">Sign Up</h2>
-                <input type="text" placeholder="User" class="input" />
-                <input type="email" placeholder="Email" class="input" />
-                <input type="password" placeholder="Password" class="input" />
-                <button class="btn">Sign Up</button>
-            </form>
+            <form action="{% url 'register' %}" method="post" class="form" id="form1">
+    {% csrf_token %}
+    {{ form.username }}
+    {% if form.username.errors %}
+        <div class="errors">{{ form.username.errors }}</div>
+    {% endif %}
+    {{ form.email }}
+    {% if form.email.errors %}
+        <div class="errors">{{ form.email.errors }}</div>
+    {% endif %}
+    {{ form.password1 }}
+    {% if form.password1.errors %}
+        <div class="errors">{{ form.password1.errors }}</div>
+    {% endif %}
+    {{ form.password2 }}
+    {% if form.password2.errors %}
+        <div class="errors">{{ form.password2.errors }}</div>
+    {% endif %}
+    <button type="submit" class="btn">Sign Up</button>
+</form>
+
+
+
         </div>
 
 

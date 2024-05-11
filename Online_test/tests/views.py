@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from .forms import UserRegistrationForm
 
 
 def dash(request):
@@ -9,13 +10,13 @@ def dash(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('/')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, 'login.html', {'form': form})
 
 
