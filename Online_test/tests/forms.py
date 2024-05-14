@@ -11,3 +11,14 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.forms import TextInput, PasswordInput
+
+class CustomAuthForm(AuthenticationForm):
+    # username = forms.CharField(widget=TextInput(attrs={'class': 'input', 'placeholder': 'Username'}))
+    # password = forms.CharField(widget=PasswordInput(attrs={'class': 'input', 'placeholder': 'Password'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
