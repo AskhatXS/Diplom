@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать тест</title>
+</head>
+<body>
+    <h1>Редактировать тест</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+    {% if form.instance.id %}
+    <a href="{% url 'test_detail' test.id %}">Вернуться к тесту</a>
+    {% endif %}
+</body>
+</html>

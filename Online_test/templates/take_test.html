@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Пройти тест: {{ test.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        p {
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            align-self: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 10px;
+            text-align: center;
+            display: block;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Пройти тест: {{ test.title }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul>
+                {% for question in test.questions.all %}
+                    <li>
+                        <p>{{ question.question }}</p>
+                        {% if question.image %}
+                            <img src="{{ question.image.url }}" alt="Изображение вопроса">
+                        {% endif %}
+                        <textarea name="answer_{{ question.id }}"></textarea>
+                        <input type="file" name="image_{{ question.id }}" accept="image/*">
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit">Отправить ответы</button>
+        </form>
+        <a href="{% url 'test_list' %}">Вернуться к списку тестов</a>
+    </div>
+</body>
+</html>
