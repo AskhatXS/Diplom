@@ -10,23 +10,27 @@ class RegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class TestForm(forms.ModelForm):
-    class Meta:
-        model = Test
-        fields = ['title', 'description']
+from django import forms
+from .models import Test, Question, Answer
+from django.forms import inlineformset_factory
 
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['question', 'image']
-
+from django import forms
+from .models import Test, Question, Answer
 
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ['answer_text', 'answer_img', 'answer_test']
 
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question', 'image']
+
+class TestForm(forms.ModelForm):
+    class Meta:
+        model = Test
+        fields = ['title', 'description', 'author', 'is_published']
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20)

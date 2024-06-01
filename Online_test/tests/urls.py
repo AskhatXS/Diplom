@@ -17,6 +17,7 @@ urlpatterns = [
     path('test_list/', views.test_list, name='test_list'),
     path('test_detail/<int:test_id>/', views.test_detail, name='test_detail'),
     path('unauthenticated/', unauthenticated, name='unauthenticated'),
+
 ]
 
 

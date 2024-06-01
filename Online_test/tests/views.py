@@ -1,4 +1,6 @@
 from django.contrib.auth import login, logout, authenticate
+from django.views import View
+
 from .forms import RegistrationForm, LoginForm, AnswerForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -56,17 +58,17 @@ def logout_view(request):
 
 
 # @login_required
-def create_test(request):
-    if request.method == 'POST':
-        form = TestForm(request.POST)
-        if form.is_valid():
-            test = form.save(commit=False)
-            test.author = request.user
-            test.save()
-            return redirect('test_list')
-    else:
-        form = TestForm()
-    return render(request, 'create_test.html', {'form': form})
+# def create_test(request):
+#     if request.method == 'POST':
+#         form = TestForm(request.POST)
+#         if form.is_valid():
+#             test = form.save(commit=False)
+#             test.author = request.user
+#             test.save()
+#             return redirect('test_list')
+#     else:
+#         form = TestForm()
+#     return render(request, 'create_test.html', {'form': form})
 
 
 @login_required
@@ -133,3 +135,47 @@ def test_list(request):
 def test_detail(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     return render(request, 'test_DETAIL/test_detail.html', {'test': test})
+
+from django.shortcuts import render, redirect
+from .forms import *
+from django.shortcuts import render, redirect
+from .forms import TestForm, QuestionForm, AnswerForm
+from .models import Test, Question, Answer
+from django.forms import modelformset_factory
+
+def create_test(request):
+    AnswerFormSet = modelformset_factory(Answer, form=AnswerForm, extra=1, can_delete=True)
+    QuestionFormSet = modelformset_factory(Question, form=QuestionForm, extra=1, can_delete=True)
+
+    if request.method == 'POST':
+        test_form = TestForm(request.POST)
+        question_formset = QuestionFormSet(request.POST, request.FILES, prefix='questions')
+        answer_formset = AnswerFormSet(request.POST, request.FILES, prefix='answers')
+
+        if test_form.is_valid() and question_formset.is_valid() and answer_formset.is_valid():
+            test = test_form.save()
+            questions = question_formset.save(commit=False)
+
+            for question in questions:
+                question.save()
+                test.questions.add(question)
+                answers = [answer for answer in answer_formset.save(commit=False) if answer.question_id == question.id]
+                for answer in answers:
+                    answer.question = question
+                    answer.save()
+
+            return redirect('test_list')
+
+    else:
+        test_form = TestForm()
+        question_formset = QuestionFormSet(prefix='questions')
+        answer_formset = AnswerFormSet(prefix='answers')
+
+    return render(request, 'create_test.html', {
+        'test_form': test_form,
+        'question_formset': question_formset,
+        'answer_formset': answer_formset,
+    })
+
+
+

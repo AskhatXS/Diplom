@@ -1,81 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Создать тест</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        label {
-            font-weight: bold;
-        }
-        input, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Create Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let questionFormset = $('#id_questions-TOTAL_FORMS');
+            let questionCount = parseInt(questionFormset.val());
+
+            $('#add-question').click(function() {
+                let newQuestionForm = $('#question-form-template').clone(true).removeAttr('id');
+                newQuestionForm.find(':input').each(function() {
+                    let name = $(this).attr('name').replace('__prefix__', questionCount);
+                    let id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('');
+                });
+                newQuestionForm.find('label').each(function() {
+                    let forAttr = $(this).attr('for').replace('__prefix__', questionCount);
+                    $(this).attr('for', forAttr);
+                });
+                newQuestionForm.appendTo('#question-formset');
+                questionCount++;
+                questionFormset.val(questionCount);
+            });
+
+            let answerFormset = $('#id_answers-TOTAL_FORMS');
+            let answerCount = parseInt(answerFormset.val());
+
+            $('#add-answer').click(function() {
+                let newAnswerForm = $('#answer-form-template').clone(true).removeAttr('id');
+                newAnswerForm.find(':input').each(function() {
+                    let name = $(this).attr('name').replace('__prefix__', answerCount);
+                    let id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('');
+                });
+                newAnswerForm.find('label').each(function() {
+                    let forAttr = $(this).attr('for').replace('__prefix__', answerCount);
+                    $(this).attr('for', forAttr);
+                });
+                newAnswerForm.appendTo('#answer-formset');
+                answerCount++;
+                answerFormset.val(answerCount);
+            });
+        });
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Создать тест</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Создать</button>
-        </form>
-        <div class="btn-group">
-            <a href="{% url 'test_list' %}">Вернуться к списку тестов</a>
+    <h1>Create Test</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Test</legend>
+            {{ test_form.as_p }}
+        </fieldset>
+
+        <fieldset id="question-formset">
+            <legend>Questions</legend>
+            {{ question_formset.management_form }}
+            {% for form in question_formset %}
+                <div class="question-form">
+                    {{ form.as_p }}
+                </div>
+            {% endfor %}
+        </fieldset>
+        <button type="button" id="add-question">Add Question</button>
+
+        <fieldset id="answer-formset">
+            <legend>Answers</legend>
+            {{ answer_formset.management_form }}
+            {% for form in answer_formset %}
+                <div class="answer-form">
+                    {{ form.as_p }}
+                </div>
+            {% endfor %}
+        </fieldset>
+        <button type="button" id="add-answer">Add Answer</button>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <div id="question-form-template" style="display: none;">
+        <div class="question-form">
+            {{ question_formset.empty_form.as_p }}
+        </div>
+    </div>
+
+    <div id="answer-form-template" style="display: none;">
+        <div class="answer-form">
+            {{ answer_formset.empty_form.as_p }}
         </div>
     </div>
 </body>
