@@ -1,0 +1,39 @@
+</a>
+        <a href="{% url 'test_list' %}">
+            <button>Список Тестов</button>
+        </a>
+    </div>
+    <div class="container">
+        <h1>Добро пожаловать на платформу тестов и опросов!</h1>
+        <p>Создавайте, проходите и анализируйте тесты с легкостью и удобством. Наша платформа предоставляет все необходимые инструменты для эффективного и интересного обучения.</p>
+    </div>
+    <div class="content-container">
+        <h1>Список тестов</h1>
+        <a href="{% url 'create_test' %}" class="btn-create">Создать тест</a>
+        <div class="test-columns">
+            <div class="column">
+                <h2>Ваши тесты</h2>
+                <ul>
+                    {% for test in user_tests %}
+                        <li>
+                            <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+                            <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="column">
+                <h2>Другие тесты</h2>
+                <ul>
+                    {% for test in other_tests %}
+                        <li>
+                            <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+                            <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

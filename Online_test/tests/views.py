@@ -1,12 +1,11 @@
 from django.contrib.auth import login, logout, authenticate
-from django.views import View
-
-from .forms import RegistrationForm, LoginForm, AnswerForm
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .models import Test
-from .forms import TestForm
+from .forms import *
+from django.shortcuts import render, redirect
+from .forms import TestForm, QuestionForm, AnswerForm
+from .models import Test, Question, Answer
+from django.forms import modelformset_factory
 
 
 def home(request):
@@ -30,7 +29,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dash')
+                return redirect('test_list')
             else:
 
                 return render(request, 'register/login.html', {'form': form, 'error': 'Invalid username or password'})
@@ -92,58 +91,48 @@ def delete_test(request, test_id):
     return redirect('test_list')
 
 
-@login_required
-def publish_test(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    if request.user != test.author:
-        return HttpResponse('You are not allowed to publish this test.')
-    test.is_published = True
-    test.save()
-    return redirect('test_detail', test_id=test.id)
-
-
 def take_test(request, test_id):
-    test = Test.objects.get(pk=test_id)
+    test = Test.objects.get(id=test_id)
     if request.method == 'POST':
-        form = AnswerForm(test.questions.all(), request.POST, request.FILES)
-        if form.is_valid():
+        for question in test.questions.all():
+            form = AnswerForm(request.POST, request.FILES)
+            if form.is_valid():
+                answer = form.save(commit=False)
+                answer.question = question
+                answer.user = request.user
+                answer.save()
+        return redirect('test_results', test_id=test.id)
 
-            return redirect('test_result')
-    else:
-        form =  (test.questions.all())
-    context = {
-        'test': test,
-        'form': form,
-    }
-    return render(request, 'take_test.html', context)
+    forms = [(question, AnswerForm()) for question in test.questions.all()]
+
+    return render(request, 'take_test.html', {'test': test, 'questions_and_forms': forms})
+
+
+def test_results(request, test_id):
+    test = Test.objects.get(id=test_id)
+    answers = Answer.objects.filter(question__in=test.questions.all(), user=request.user)
+    return render(request, 'test_DETAIL/test_results.html', {'test': test, 'answers': answers})
+
+
+def retake_test(request, test_id):
+    Answer.objects.filter(question__in=Test.objects.get(id=test_id).questions.all(), user=request.user).delete()
+    return redirect('take_test', test_id=test_id)
 
 @login_required
-def test_results(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    results = test.get_results()  #
-    return render(request, 'test_results.html', {'test': test, 'results': results})
-
-
-# @login required
 def test_list(request):
 
         user_tests = Test.objects.filter(author=request.user)
-        other_tests = Test.objects.all()
+        other_tests = Test.objects.exclude(author=request.user)
 
-        return render(request, 'test_list.html', {'user_tests': user_tests, 'other_tests': other_tests})
+        return render(request, 'test_DETAIL/test_list.html', {'user_tests': user_tests, 'other_tests': other_tests})
 
 def test_detail(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     return render(request, 'test_DETAIL/test_detail.html', {'test': test})
 
-from django.shortcuts import render, redirect
-from .forms import *
-from django.shortcuts import render, redirect
-from .forms import TestForm, QuestionForm, AnswerForm
-from .models import Test, Question, Answer
-from django.forms import modelformset_factory
 
 def create_test(request):
+
     AnswerFormSet = modelformset_factory(Answer, form=AnswerForm, extra=1, can_delete=True)
     QuestionFormSet = modelformset_factory(Question, form=QuestionForm, extra=1, can_delete=True)
 

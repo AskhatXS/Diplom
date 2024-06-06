@@ -17,6 +17,8 @@ class Answer(models.Model):
     answer_img = models.ImageField(upload_to='answers/', blank=True, null=True)
     answer_test = models.BooleanField(default=False)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_correct = models.BooleanField(default=False)
 
     def __str__(self):
         return self.answer_text or 'Ответ с изображением'
