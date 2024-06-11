@@ -1,6 +1,3 @@
-from django.contrib.auth.models import User
-from django.db import models
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -41,4 +38,4 @@ class TestResult(models.Model):
     completed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        f" {self.user.username} - {self.test.title} - {self.score} "
+       return f" {self.user.username} - {self.test.title} - {self.score} "

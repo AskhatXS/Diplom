@@ -1,13 +1,14 @@
 from django.contrib.auth import login, logout, authenticate
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .forms import *
-from django.shortcuts import render, redirect
-from .forms import TestForm, QuestionForm, AnswerForm
-from .models import Test, Question, Answer
+from .forms import TestForm, QuestionForm
 from django.forms import modelformset_factory
-
-
+from .models import User
+from .forms import AnswerForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from .models import Test, Question, Answer, TestResult
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 def home(request):
     return render(request, 'head/home.html')
 
@@ -91,27 +92,50 @@ def delete_test(request, test_id):
     return redirect('test_list')
 
 
+
+@login_required
 def take_test(request, test_id):
-    test = Test.objects.get(id=test_id)
+    test = get_object_or_404(Test, pk=test_id)
+    questions = test.questions.all()
+
     if request.method == 'POST':
-        for question in test.questions.all():
-            form = AnswerForm(request.POST, request.FILES)
-            if form.is_valid():
-                answer = form.save(commit=False)
-                answer.question = question
-                answer.user = request.user
-                answer.save()
-        return redirect('test_results', test_id=test.id)
+        user = request.user
+        score = 0
+        total_questions = questions.count()
 
-    forms = [(question, AnswerForm()) for question in test.questions.all()]
+        for question in questions:
+            user_answer_id = request.POST.get(f'question_{question.id}')
 
-    return render(request, 'take_test.html', {'test': test, 'questions_and_forms': forms})
+            if user_answer_id:
+                try:
+                    user_answer = Answer.objects.get(id=user_answer_id, question=question)
+                    correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
+
+                    if user_answer == correct_answer:
+                        score += 1
+                except Answer.DoesNotExist:
+                    continue
+
+        score_percentage = (score / total_questions) * 100 if total_questions > 0 else 0
+
+        TestResult.objects.update_or_create(
+            user=user,
+            test=test,
+            defaults={'score': score_percentage}
+        )
+
+        messages.success(request, f'Вы завершили тест "{test.title}" с результатом {score_percentage:.2f}%')
+        return redirect(reverse('test_results', kwargs={'user_id': user.id, 'test_id': test.id}))
+
+    return render(request, 'take_test.html', {'test': test, 'questions': questions})
 
 
-def test_results(request, test_id):
-    test = Test.objects.get(id=test_id)
-    answers = Answer.objects.filter(question__in=test.questions.all(), user=request.user)
-    return render(request, 'test_DETAIL/test_results.html', {'test': test, 'answers': answers})
+@login_required
+def test_results(request, user_id, test_id):
+    user = get_object_or_404(User, pk=user_id)
+    test = get_object_or_404(Test, pk=test_id)
+    result = get_object_or_404(TestResult, user=user, test=test)
+    return render(request, 'test_results.html', {'result': result, 'user': user, 'test': test})
 
 
 def retake_test(request, test_id):

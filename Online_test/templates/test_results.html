@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат теста {{ test.title }} - {{ user.username }}</title>
+</head>
+<body>
+    <h1>Результат теста "{{ test.title }}" для пользователя {{ user.username }}</h1>
+    <p>Результат: {{ result.score }}%</p>
+    <p>Дата завершения: {{ result.completed_at }}</p>
+    <a href="{% url 'test_detail' test.id %}">Пройти тест снова</a>
+</body>
+</html>
