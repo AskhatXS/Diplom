@@ -11,32 +11,29 @@ class RegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class AnswerForm(forms.ModelForm):
-    class Meta:
-        model = Answer
-        fields = ['answer_test']
+# forms.py
 
-    def __init__(self, *args, **kwargs):
-        question = kwargs.pop('question', None)
-        super(AnswerForm, self).__init__(*args, **kwargs)
-        if question:
-            self.fields['answers'] = forms.ModelMultipleChoiceField(
-                queryset=Answer.objects.filter(question=question),
-                widget=forms.CheckboxSelectMultiple(),
-                required=False
-            )
+from django import forms
+from .models import Test, Question, Answer
 
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['question', 'image']
-
+from django import forms
+from .models import Test, Question, Answer
 
 class TestForm(forms.ModelForm):
     class Meta:
         model = Test
         fields = ['title', 'description', 'author', 'is_published']
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question', 'image', 'test']
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['answer_text', 'answer_img', 'answer_test', 'question', 'user', 'is_correct']
+
 
 
 class LoginForm(forms.Form):

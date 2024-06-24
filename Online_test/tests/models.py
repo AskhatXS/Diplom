@@ -5,9 +5,20 @@ from django.contrib.auth.models import User
 class Question(models.Model):
     question = models.CharField(max_length=255)
     image = models.ImageField(upload_to='questions/', blank=True, null=True)
+    test = models.ForeignKey('Test', related_name='questions', on_delete=models.CASCADE)  # Изменено на ForeignKey
 
     def __str__(self):
         return self.question
+
+class Test(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_published = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
 
 class Answer(models.Model):
     answer_text = models.TextField('Ответ в текстовом виде')
@@ -20,15 +31,9 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer_text or 'Ответ с изображением'
 
-class Test(models.Model):
-    title = models.CharField('Название', max_length=100)
-    description = models.TextField('Описание')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    questions = models.ManyToManyField(Question, related_name='tests')
-    is_published = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.title
+
+
 
 
 class TestResult(models.Model):

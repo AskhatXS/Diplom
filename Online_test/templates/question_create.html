@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Questions</title>
+</head>
+<body>
+    <h1>Add Questions and Answers to Test: {{ test.title }}</h1>
+    <h2>Add a Question</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ question_form.as_p }}
+        <button type="submit">Add Question</button>
+    </form>
+    <h2>Existing Questions</h2>
+    <ul>
+        {% for question in questions %}
+            <li>
+                {{ question.question }}
+
+                <a href="{% url 'add_answers' test.id question.id %}">(Add Answers)</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,94 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Create Test</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            let questionFormset = $('#id_questions-TOTAL_FORMS');
-            let questionCount = parseInt(questionFormset.val());
-
-            $('#add-question').click(function() {
-                let newQuestionForm = $('#question-form-template').clone(true).removeAttr('id');
-                newQuestionForm.find(':input').each(function() {
-                    let name = $(this).attr('name').replace('__prefix__', questionCount);
-                    let id = 'id_' + name;
-                    $(this).attr({'name': name, 'id': id}).val('');
-                });
-                newQuestionForm.find('label').each(function() {
-                    let forAttr = $(this).attr('for').replace('__prefix__', questionCount);
-                    $(this).attr('for', forAttr);
-                });
-                newQuestionForm.appendTo('#question-formset');
-                questionCount++;
-                questionFormset.val(questionCount);
-            });
-
-            let answerFormset = $('#id_answers-TOTAL_FORMS');
-            let answerCount = parseInt(answerFormset.val());
-
-            $('#add-answer').click(function() {
-                let newAnswerForm = $('#answer-form-template').clone(true).removeAttr('id');
-                newAnswerForm.find(':input').each(function() {
-                    let name = $(this).attr('name').replace('__prefix__', answerCount);
-                    let id = 'id_' + name;
-                    $(this).attr({'name': name, 'id': id}).val('');
-                });
-                newAnswerForm.find('label').each(function() {
-                    let forAttr = $(this).attr('for').replace('__prefix__', answerCount);
-                    $(this).attr('for', forAttr);
-                });
-                newAnswerForm.appendTo('#answer-formset');
-                answerCount++;
-                answerFormset.val(answerCount);
-            });
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Create Test</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset>
-            <legend>Test</legend>
-            {{ test_form.as_p }}
-        </fieldset>
-
-        <fieldset id="question-formset">
-            <legend>Questions</legend>
-            {{ question_formset.management_form }}
-            {% for form in question_formset %}
-                <div class="question-form">
-                    {{ form.as_p }}
-                </div>
-            {% endfor %}
-        </fieldset>
-        <button type="button" id="add-question">Add Question</button>
-
-        <fieldset id="answer-formset">
-            <legend>Answers</legend>
-            {{ answer_formset.management_form }}
-            {% for form in answer_formset %}
-                <div class="answer-form">
-                    {{ form.as_p }}
-                </div>
-            {% endfor %}
-        </fieldset>
-        <button type="button" id="add-answer">Add Answer</button>
-
-        <button type="submit">Save</button>
-    </form>
-
-    <div id="question-form-template" style="display: none;">
-        <div class="question-form">
-            {{ question_formset.empty_form.as_p }}
+<form id="testForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ test_form.as_p }}
+    <div id="questionsContainer">
+        <div class="question">
+            {{ question_form.as_p }}
+            <button type="button" class="addAnswerBtn">Добавить ответ</button>
+            <div class="answersContainer"></div>
         </div>
     </div>
+    <button type="button" onclick="addQuestion()">Добавить вопрос</button>
+    <button type="submit">Сохранить тест</button>
+</form>
 
-    <div id="answer-form-template" style="display: none;">
-        <div class="answer-form">
-            {{ answer_formset.empty_form.as_p }}
-        </div>
-    </div>
+<script>
+function addQuestion() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{% url "get-question-form" %}', true);
+    xhr.onload = function () {
+        if (this.status == 200) {
+            var data = JSON.parse(this.responseText);
+            var container = document.getElementById('questionsContainer');
+            var div = document.createElement('div');
+            div.className = 'question';
+            div.innerHTML = data.question_form;
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'addAnswerBtn';
+            button.textContent = 'Добавить ответ';
+            button.onclick = addAnswer;
+            div.appendChild(button);
+            var answersDiv = document.createElement('div');
+            answersDiv.className = 'answersContainer';
+            div.appendChild(answersDiv);
+            container.appendChild(div);
+        }
+    };
+    xhr.send();
+}
+
+
+
+</script>
+<script>// Проверьте, что скрипт находится в шаблоне, где работает Django template engine
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('questionsContainer').addEventListener('click', function(e) {
+        if (e.target.classList.contains('addAnswerBtn')) {
+            addAnswer(e.target);
+        }
+    });
+});
+
+function addAnswer(button) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{% url "get-answer-form" %}', true);
+    xhr.onload = function() {
+        if (this.status === 200) {
+            var data = JSON.parse(this.responseText);
+            var answersContainer = button.nextElementSibling;  // Убедитесь, что контейнер ответов следует за кнопкой
+            answersContainer.innerHTML += data.answer_form;
+        } else {
+            console.error('Failed to load answer form:', this.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Error during the AJAX call');
+    };
+    xhr.send();
+}
+</script>
 </body>
 </html>

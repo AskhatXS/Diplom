@@ -156,7 +156,6 @@ def test_detail(request, test_id):
 
 
 def create_test(request):
-
     AnswerFormSet = modelformset_factory(Answer, form=AnswerForm, extra=1, can_delete=True)
     QuestionFormSet = modelformset_factory(Question, form=QuestionForm, extra=1, can_delete=True)
 
@@ -170,8 +169,8 @@ def create_test(request):
             questions = question_formset.save(commit=False)
 
             for question in questions:
+                question.test = test
                 question.save()
-                test.questions.add(question)
                 answers = [answer for answer in answer_formset.save(commit=False) if answer.question_id == question.id]
                 for answer in answers:
                     answer.question = question
@@ -191,4 +190,108 @@ def create_test(request):
     })
 
 
+# views.py
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.forms import modelformset_factory
+from django.views import View
+from .models import Test, Question, Answer
+from .forms import TestForm, QuestionForm, AnswerForm
 
+
+from django.forms import inlineformset_factory, modelformset_factory
+from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView, UpdateView
+from .forms import TestForm, QuestionForm, AnswerForm
+from .models import Test, Question, Answer
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from .forms import TestForm
+
+class TestCreateView(CreateView):
+    model = Test
+    form_class = TestForm
+    template_name = 'test_create.html'
+
+    def get_success_url(self):
+        # После создания теста перенаправляем пользователя на страницу добавления вопросов
+        return reverse('add_questions', args=[self.object.id])
+
+
+from django.shortcuts import render, get_object_or_404
+from .forms import QuestionForm, AnswerForm
+from .models import Test, Question
+
+def add_questions(request, test_id):
+    test = get_object_or_404(Test, pk=test_id)
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST, request.FILES)
+        if question_form.is_valid():
+            question = question_form.save(commit=False)
+            question.test = test
+            question.save()
+            return redirect('add_questions', test_id=test_id)  # Обновляем страницу для добавления нового вопроса
+    else:
+        question_form = QuestionForm()
+        questions = Question.objects.filter(test=test)  # Получаем уже добавленные вопросы
+    return render(request, 'question_create.html', {'test': test, 'question_form': question_form, 'questions': questions})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import AnswerForm
+from .models import Test, Question, Answer
+
+def add_answers(request, test_id, question_id):
+    test = get_object_or_404(Test, pk=test_id)
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        answer_form = AnswerForm(request.POST, request.FILES)
+        if answer_form.is_valid():
+            answer = answer_form.save(commit=False)
+            answer.question = question
+            answer.save()
+            return redirect('add_answers', test_id=test_id, question_id=question_id)  # Обновляем страницу
+    else:
+        answer_form = AnswerForm()
+        answers = Answer.objects.filter(question=question)  # Получаем уже добавленные ответы
+    return render(request, 'answer_create.html', {
+        'test': test,
+        'question': question,
+        'answer_form': answer_form,
+        'answers': answers
+    })
+
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .forms import TestForm, QuestionForm, AnswerForm
+from .models import Test, Question, Answer
+
+def create_test_full_view(request):
+    if request.method == 'POST':
+        if 'test_form' in request.POST:
+            test_form = TestForm(request.POST)
+            if test_form.is_valid():
+                new_test = test_form.save()
+                return JsonResponse({'testId': new_test.id})
+        elif 'question_form' in request.POST:
+            question_form = QuestionForm(request.POST, request.FILES)
+            if question_form.is_valid():
+                new_question = question_form.save()
+                return JsonResponse({'questionId': new_question.id})
+        elif 'answer_form' in request.POST:
+            answer_form = AnswerForm(request.POST, request.FILES)
+            if answer_form.is_valid():
+                new_answer = answer_form.save()
+                return JsonResponse({'success': True})
+    else:
+        test_form = TestForm()
+        question_form = QuestionForm()
+        answer_form = AnswerForm()
+
+    context = {
+        'test_form': test_form,
+        'question_form': question_form,
+        'answer_form': answer_form
+    }
+    return render(request, 'create_full.html', context)

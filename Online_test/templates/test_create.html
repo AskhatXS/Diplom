@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Test</title>
+</head>
+<body>
+    <h1>Create a New Test</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Test</button>
+    </form>
+</body>
+</html>

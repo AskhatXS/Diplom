@@ -7,7 +7,11 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('create_test/', views.create_test, name='create_test'),
+    path('create_test_full_view/',views.create_test_full_view),
+
+    path('create_test/', views.TestCreateView.as_view(), name='create_test'),
+    path('add_questions/<int:test_id>/',views.add_questions, name='add_questions'),
+    path('add_answers/<int:test_id>/<int:question_id>/', views.add_answers, name='add_answers'),
     path('edit_test/<int:test_id>/', views.edit_test, name='edit_test'),
     path('delete_test/<int:test_id>/', views.delete_test, name='delete_test'),
     path('retake_test/<int:test_id>/', views.retake_test, name='retake_test'),

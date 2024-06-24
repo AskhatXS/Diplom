@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Answers</title>
+</head>
+<body>
+    <h1>Add Answers to Question: {{ question.question }} in Test: {{ test.title }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ answer_form.as_p }}
+        <button type="submit">Add Answer</button>
+    </form>
+
+    <h2>Existing Answers</h2>
+    <ul>
+        {% for answer in answers %}
+            <li>{{ answer.answer_text }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
