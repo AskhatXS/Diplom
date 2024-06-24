@@ -7,33 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static "css/styles_for_base.css" %}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <style>
- /* Add your custom CSS styles here */
-        .column {
-            float: right; /* Change float to right */
-            width: 50%;
-            padding: 10px;
-        }
-
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* Additional styles for positioning */
-        .section-wrapper {
-            position: relative;
-            height: 100vh;
-        }
-
-        .section-content {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-        }
-    </style>
 </head>
 <body>
     <nav class="sidebar close">
@@ -45,7 +18,7 @@
 
                 <div class="text logo-text">
                     <span class="name">Онлайн Опросы</span>
-                    <span class="profession"></span>
+                    <span class="profession">By Askhat</span>
                 </div>
             </div>
 
@@ -124,45 +97,9 @@
     </nav>
 
     <section class="home">
-        <div class="text">Список тестов</div>
+        <div class="text">Онлайн опросы и тесты</div>
     </section>
 
-<div class="section-wrapper">
-        <section class="home">
-            <div class="test-columns">
-                <div class="row">
-                    <div class="column">
-                        <div class="column">
-                            <h2>Ваши тесты</h2>
-                            <ul>
-                                {% for test in user_tests %}
-                                    <li>
-                                        <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                        <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="column">
-                            <h2>Другие тесты</h2>
-                            <ul>
-                                {% for test in other_tests %}
-                                    <li>
-                                        <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                        <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="section-content">
-            <h1>Список тестов</h1>
-            <a href="{% url 'create_test' %}" class="btn-create">Создать тест</a>
-        </div>
-    </div>
     <script>
         const body = document.querySelector('body'),
       sidebar = body.querySelector('nav'),

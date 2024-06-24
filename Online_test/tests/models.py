@@ -2,6 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Profile(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    description = models.TextField()
+    profile_image_url = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+
 class Question(models.Model):
     question = models.CharField(max_length=255)
     image = models.ImageField(upload_to='questions/', blank=True, null=True)
@@ -9,6 +19,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question
+
 
 class Test(models.Model):
     title = models.CharField(max_length=100)
@@ -30,10 +41,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_text or 'Ответ с изображением'
-
-
-
-
 
 
 class TestResult(models.Model):

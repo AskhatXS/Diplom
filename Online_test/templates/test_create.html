@@ -1,14 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Create Test</title>
+    <meta charset="UTF-8">
+    <title>Создать тест</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #6a0dad;
+        }
+        form input, form textarea, form button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        form button {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: #5a0cae;
+        }
+    </style>
 </head>
 <body>
-    <h1>Create a New Test</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Test</button>
-    </form>
+    <div class="container">
+        <h1>Создать новый тест</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Создать тест</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -11,23 +11,35 @@ class RegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-# forms.py
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(widget=forms.PasswordInput)
 
-from django import forms
-from .models import Test, Question, Answer
-
-from django import forms
-from .models import Test, Question, Answer
 
 class TestForm(forms.ModelForm):
     class Meta:
         model = Test
         fields = ['title', 'description', 'author', 'is_published']
+        labels = {
+            'title': 'Название',
+            'description': 'Описание',
+            'author': 'Автор',
+            'is_published': 'Опубликован',
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Введите название'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Введите описание'}),
+            'author': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'is_published': forms.CheckboxInput(),
+        }
+
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['question', 'image', 'test']
+
 
 class AnswerForm(forms.ModelForm):
     class Meta:
@@ -36,6 +48,3 @@ class AnswerForm(forms.ModelForm):
 
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=20)
-    password = forms.CharField(widget=forms.PasswordInput)

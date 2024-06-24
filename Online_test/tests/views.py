@@ -1,24 +1,33 @@
 from django.contrib.auth import login, logout, authenticate
+from django.http import JsonResponse
 from .forms import *
 from .forms import TestForm, QuestionForm
 from django.forms import modelformset_factory
-from .models import User
+from .models import User, Profile
 from .forms import AnswerForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import Test, Question, Answer, TestResult
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import CreateView, UpdateView
+
+
 def home(request):
     return render(request, 'head/home.html')
 
 
-def dash(request):
-    return render(request, 'head/dash.html')
+def base(request):
+    return render(request, 'head/base.html')
 
 
 def unauthenticated(request):
     return render(request, 'register/unauth.html')
+
+
+def profile_view(request):
+    profile = Profile.objects.first()
+    return render(request, 'profile.html', {'profile': profile})
 
 
 def user_login(request):
@@ -30,7 +39,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('test_list')
+                return redirect('base')
             else:
 
                 return render(request, 'register/login.html', {'form': form, 'error': 'Invalid username or password'})
@@ -57,20 +66,6 @@ def logout_view(request):
     return redirect('home')
 
 
-# @login_required
-# def create_test(request):
-#     if request.method == 'POST':
-#         form = TestForm(request.POST)
-#         if form.is_valid():
-#             test = form.save(commit=False)
-#             test.author = request.user
-#             test.save()
-#             return redirect('test_list')
-#     else:
-#         form = TestForm()
-#     return render(request, 'create_test.html', {'form': form})
-
-
 @login_required
 def edit_test(request, test_id):
     test = get_object_or_404(Test, id=test_id)
@@ -90,7 +85,6 @@ def delete_test(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     test.delete()
     return redirect('test_list')
-
 
 
 @login_required
@@ -148,81 +142,32 @@ def test_list(request):
         user_tests = Test.objects.filter(author=request.user)
         other_tests = Test.objects.exclude(author=request.user)
 
-        return render(request, 'test_DETAIL/test_list.html', {'user_tests': user_tests, 'other_tests': other_tests})
+        return render(request, 'head/test_list.html', {'user_tests': user_tests, 'other_tests': other_tests})
+
 
 def test_detail(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     return render(request, 'test_DETAIL/test_detail.html', {'test': test})
 
 
-def create_test(request):
-    AnswerFormSet = modelformset_factory(Answer, form=AnswerForm, extra=1, can_delete=True)
-    QuestionFormSet = modelformset_factory(Question, form=QuestionForm, extra=1, can_delete=True)
-
-    if request.method == 'POST':
-        test_form = TestForm(request.POST)
-        question_formset = QuestionFormSet(request.POST, request.FILES, prefix='questions')
-        answer_formset = AnswerFormSet(request.POST, request.FILES, prefix='answers')
-
-        if test_form.is_valid() and question_formset.is_valid() and answer_formset.is_valid():
-            test = test_form.save()
-            questions = question_formset.save(commit=False)
-
-            for question in questions:
-                question.test = test
-                question.save()
-                answers = [answer for answer in answer_formset.save(commit=False) if answer.question_id == question.id]
-                for answer in answers:
-                    answer.question = question
-                    answer.save()
-
-            return redirect('test_list')
-
-    else:
-        test_form = TestForm()
-        question_formset = QuestionFormSet(prefix='questions')
-        answer_formset = AnswerFormSet(prefix='answers')
-
-    return render(request, 'create_test.html', {
-        'test_form': test_form,
-        'question_formset': question_formset,
-        'answer_formset': answer_formset,
-    })
-
-
-# views.py
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.forms import modelformset_factory
-from django.views import View
-from .models import Test, Question, Answer
-from .forms import TestForm, QuestionForm, AnswerForm
-
-
-from django.forms import inlineformset_factory, modelformset_factory
-from django.shortcuts import render, redirect
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView
-from .forms import TestForm, QuestionForm, AnswerForm
-from .models import Test, Question, Answer
-
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from .forms import TestForm
-
 class TestCreateView(CreateView):
     model = Test
     form_class = TestForm
     template_name = 'test_create.html'
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
     def get_success_url(self):
         # После создания теста перенаправляем пользователя на страницу добавления вопросов
         return reverse('add_questions', args=[self.object.id])
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['author'] = self.request.user.username
+        return initial
 
-from django.shortcuts import render, get_object_or_404
-from .forms import QuestionForm, AnswerForm
-from .models import Test, Question
 
 def add_questions(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
@@ -238,9 +183,6 @@ def add_questions(request, test_id):
         questions = Question.objects.filter(test=test)  # Получаем уже добавленные вопросы
     return render(request, 'question_create.html', {'test': test, 'question_form': question_form, 'questions': questions})
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .forms import AnswerForm
-from .models import Test, Question, Answer
 
 def add_answers(request, test_id, question_id):
     test = get_object_or_404(Test, pk=test_id)
@@ -262,36 +204,4 @@ def add_answers(request, test_id, question_id):
         'answers': answers
     })
 
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .forms import TestForm, QuestionForm, AnswerForm
-from .models import Test, Question, Answer
 
-def create_test_full_view(request):
-    if request.method == 'POST':
-        if 'test_form' in request.POST:
-            test_form = TestForm(request.POST)
-            if test_form.is_valid():
-                new_test = test_form.save()
-                return JsonResponse({'testId': new_test.id})
-        elif 'question_form' in request.POST:
-            question_form = QuestionForm(request.POST, request.FILES)
-            if question_form.is_valid():
-                new_question = question_form.save()
-                return JsonResponse({'questionId': new_question.id})
-        elif 'answer_form' in request.POST:
-            answer_form = AnswerForm(request.POST, request.FILES)
-            if answer_form.is_valid():
-                new_answer = answer_form.save()
-                return JsonResponse({'success': True})
-    else:
-        test_form = TestForm()
-        question_form = QuestionForm()
-        answer_form = AnswerForm()
-
-    context = {
-        'test_form': test_form,
-        'question_form': question_form,
-        'answer_form': answer_form
-    }
-    return render(request, 'create_full.html', context)
