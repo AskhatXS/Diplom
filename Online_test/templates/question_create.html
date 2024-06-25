@@ -1,25 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1, h2 {
+            color: #6a0dad;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5a009d;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #f0f0f8;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            color: #6a0dad;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add Questions and Answers to Test: {{ test.title }}</h1>
-    <h2>Add a Question</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ question_form.as_p }}
-        <button type="submit">Add Question</button>
-    </form>
-    <h2>Existing Questions</h2>
-    <ul>
-        {% for question in questions %}
-            <li>
-                {{ question.question }}
-
-                <a href="{% url 'add_answers' test.id question.id %}">(Add Answers)</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Добавить вопрос к тесту : {{ test.title }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ question_form.as_p }}
+            <button type="submit">Добавить вопрос</button>
+        </form>
+        <h2>Существующие вопросы</h2>
+        <ul>
+            {% for question in questions %}
+                <li>
+                    {{ question.question }}
+                    <a href="{% url 'add_answers' test.id question.id %}">(Add Answers)</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

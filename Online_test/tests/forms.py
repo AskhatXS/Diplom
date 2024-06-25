@@ -34,17 +34,28 @@ class TestForm(forms.ModelForm):
         }
 
 
-
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question', 'image', 'test']
+        fields = ['question',  'test']
+        labels = {
+            'question': 'Вопрос',
+            'test': 'Тест'
+        }
+        widgets = {
+            'question': forms.TextInput(attrs={'placeholder': 'Введите вопрос'})
+        }
 
 
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
-        fields = ['answer_text', 'answer_img', 'answer_test', 'question', 'user', 'is_correct']
+        fields = ['answer_text', 'answer_test', 'question', 'user', 'is_correct']
+        labels = {
+            'question': 'Вопрос',
+            'user': 'Пользователь',
+            'is_correct': 'Правильный ли'
+        }
 
 
 

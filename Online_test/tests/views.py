@@ -1,7 +1,5 @@
 from django.contrib.auth import login, logout, authenticate
-from django.http import JsonResponse
-from .forms import *
-from .forms import TestForm, QuestionForm
+from .forms import TestForm, QuestionForm, LoginForm, RegistrationForm
 from django.forms import modelformset_factory
 from .models import User, Profile
 from .forms import AnswerForm
@@ -10,7 +8,7 @@ from django.urls import reverse
 from .models import Test, Question, Answer, TestResult
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView
 
 
 def home(request):
@@ -25,9 +23,13 @@ def unauthenticated(request):
     return render(request, 'register/unauth.html')
 
 
+def footer(request):
+    return render(request, 'head/footer.html')
+
+
 def profile_view(request):
     profile = Profile.objects.first()
-    return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'head/profile.html', {'profile': profile})
 
 
 def user_login(request):
@@ -41,12 +43,14 @@ def user_login(request):
                 login(request, user)
                 return redirect('base')
             else:
-
-                return render(request, 'register/login.html', {'form': form, 'error': 'Invalid username or password'})
+                return render(request, 'register/login.html', {
+                    'form': form,
+                    'error': 'Invalid username or password'
+                })
     else:
         form = LoginForm()
-
     return render(request, 'register/login.html', {'form': form})
+
 
 
 def register(request):

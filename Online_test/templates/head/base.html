@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "css/styles_for_base.css" %}">
+    <link rel="stylesheet" href="{% static 'css/styles_for_base.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -18,7 +18,7 @@
 
                 <div class="text logo-text">
                     <span class="name">Онлайн Опросы</span>
-                    <span class="profession">By Askhat</span>
+                    <span class="profession"></span>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="{% url 'footer' %}">
                             <i class='bx bx-heart icon' ></i>
                             <span class="text nav-text">О нас</span>
                         </a>

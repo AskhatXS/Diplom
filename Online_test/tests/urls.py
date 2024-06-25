@@ -8,6 +8,7 @@ urlpatterns = [
     path('base/', views.base, name='base'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('footer/', views.footer, name='footer'),
     path('profile/', views.profile_view, name='profile'),
     path('create_test/', views.TestCreateView.as_view(), name='create_test'),
     path('add_questions/<int:test_id>/', views.add_questions, name='add_questions'),

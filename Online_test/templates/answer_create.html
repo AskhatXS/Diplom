@@ -1,21 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1, h2 {
+            color: #6a0dad;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5a009d;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #f0f0f8;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add Answers to Question: {{ question.question }} in Test: {{ test.title }}</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ answer_form.as_p }}
-        <button type="submit">Add Answer</button>
-    </form>
+    <div class="container">
+        <h1>Добавить ответ к вопросу: "{{ question.question }}" к тесту: {{ test.title }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ answer_form.as_p }}
+            <button type="submit">Добавить ответ</button>
+        </form>
 
-    <h2>Existing Answers</h2>
-    <ul>
-        {% for answer in answers %}
-            <li>{{ answer.answer_text }}</li>
-        {% endfor %}
-    </ul>
+        <h2>Существующие ответы</h2>
+        <ul>
+            {% for answer in answers %}
+                <li>{{ answer.answer_text }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#id_question').value = '{{ question.id }}';
+            document.querySelector('#id_user').value = '{{ request.user.id }}';
+        });
+    </script>
 </body>
 </html>
