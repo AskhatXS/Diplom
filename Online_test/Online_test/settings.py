@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-^qkbz$*n&mv6%t!z5pk)&tfmi+--1s(%_sff09ijbjw6fkkvxc
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'https://oprosy-by-askhat.student-project-it-academy.tw1.ru',
     'oprosy-by-askhat.student-project-it-academy.tw1.ru'
     'www.oprosy-by-askhat.student-project-it-academy.tw1.ru'
 ]
