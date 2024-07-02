@@ -19,17 +19,15 @@ class LoginForm(forms.Form):
 class TestForm(forms.ModelForm):
     class Meta:
         model = Test
-        fields = ['title', 'description', 'author', 'is_published']
+        fields = ['title', 'description', 'is_published']
         labels = {
             'title': 'Название',
             'description': 'Описание',
-            'author': 'Автор',
             'is_published': 'Опубликован',
         }
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Введите название'}),
             'description': forms.Textarea(attrs={'placeholder': 'Введите описание'}),
-            'author': forms.TextInput(attrs={'readonly': 'readonly'}),
             'is_published': forms.CheckboxInput(),
         }
 
@@ -37,10 +35,9 @@ class TestForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question',  'test']
+        fields = ['question',]
         labels = {
             'question': 'Вопрос',
-            'test': 'Тест'
         }
         widgets = {
             'question': forms.TextInput(attrs={'placeholder': 'Введите вопрос'})
@@ -50,7 +47,7 @@ class QuestionForm(forms.ModelForm):
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
-        fields = ['answer_text', 'answer_test', 'question', 'user', 'is_correct']
+        fields = ['answer_text', 'is_correct']
         labels = {
             'question': 'Вопрос',
             'user': 'Пользователь',

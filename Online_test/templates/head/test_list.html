@@ -12,11 +12,27 @@
             margin: 0;
             padding: 0;
         }
+        .navbar {
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
         .center-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 90vh;
         }
         .section-wrapper {
             background-color: #fff;
@@ -24,23 +40,23 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 80%;
-            max-width: 1000px;
+            max-width: 1200px;
         }
         .home {
             margin-bottom: 20px;
         }
         .test-columns {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
+            gap: 20px;
         }
         .column {
             flex: 1;
-            margin: 10px;
             padding: 20px;
             background-color: #f0f0f8;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 400px; /* Added to make the columns more voluminous */
         }
         .column h2 {
             color: #6a0dad;
@@ -54,7 +70,8 @@
         }
         .column a {
             color: #6a0dad;
-            text-decoration: none;         margin-right: 10px;
+            text-decoration: none;
+            margin-right: 10px;
         }
         .column button {
             background-color: #6a0dad;
@@ -89,40 +106,39 @@
     </style>
 </head>
 <body>
+    <div class="navbar">>
+        <a href="{% url 'base' %}">Назад</a>
+    </div>
     <div class="center-wrapper">
         <section class="home">
             <div class="section-wrapper">
-                <section class="home">
-                    <div class="test-columns">
-                        <div class="row">
-                            <div class="column">
-                                <h2>Ваши тесты</h2>
-                                <ul>
-                                    {% for test in user_tests %}
-                                        <li>
-                                            <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                            <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="column">
-                                <h2>Другие тесты</h2>
-                                <ul>
-                                    {% for test in other_tests %}
-                                        <li>
-                                            <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                            <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
                 <div class="section-content">
                     <h1>Список тестов</h1>
                     <a href="{% url 'create_test' %}" class="btn-create">Создать тест</a>
+                </div>
+                <div class="test-columns">
+                    <div class="column">
+                        <h2>Ваши тесты</h2>
+                        <ul>
+                            {% for test in user_tests %}
+                                <li>
+                                    <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+                                    <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2>Другие тесты</h2>
+                        <ul>
+                            {% for test in other_tests %}
+                                <li>
+                                    <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+                                    <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>

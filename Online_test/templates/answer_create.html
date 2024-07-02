@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Answers</title>
+    <title>Добавить ответ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,6 +48,34 @@
             padding: 10px;
             border-radius: 5px;
         }
+        .btn-create-test {
+            display: block;
+            margin: 20px auto;
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 200px;
+        }
+        .btn-create-test:hover {
+            background-color: #5a009d;
+        }
+        .btn-back {
+            display: block;
+            margin: 20px auto;
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 100px;
+        }
+        .btn-back:hover {
+            background-color: #5a009d;
+        }
     </style>
 </head>
 <body>
@@ -61,10 +89,19 @@
 
         <h2>Существующие ответы</h2>
         <ul>
-            {% for answer in answers %}
-                <li>{{ answer.answer_text }}</li>
-            {% endfor %}
+         {% for answer in answers %}
+    <li>
+        {{ answer.answer_text }}
+        <form action="{% url 'delete_answer' answer.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    </li>
+    {% endfor %}
         </ul>
+
+        <a href="{% url 'test_list' %}" class="btn-create-test">Создать тест</a>
+        <a href="{% url 'add_questions' test.id %}" class="btn-back">Назад</a>
     </div>
 
     <script>

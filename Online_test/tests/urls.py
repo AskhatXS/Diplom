@@ -21,7 +21,10 @@ urlpatterns = [
     path('test_list/', views.test_list, name='test_list'),
     path('test_detail/<int:test_id>/', views.test_detail, name='test_detail'),
     path('unauthenticated/', unauthenticated, name='unauthenticated'),
+    path('delete_answer/<int:answer_id>/', views.delete_answer, name='delete_answer'),
+    path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
 ]
+
 
 
 

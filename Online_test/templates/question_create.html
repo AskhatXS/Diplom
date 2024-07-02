@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Questions</title>
+    <title>Добавить вопрос</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,25 +56,44 @@
         a:hover {
             text-decoration: underline;
         }
+        .btn-back {
+            display: block;
+            margin: 20px auto;
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 100px;
+        }
+        .btn-back:hover {
+            background-color: #5a009d;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Добавить вопрос к тесту : {{ test.title }}</h1>
+        <h1>Добавить вопрос к тесту: {{ test.title }}</h1>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ question_form.as_p }}
             <button type="submit">Добавить вопрос</button>
         </form>
         <h2>Существующие вопросы</h2>
-        <ul>
-            {% for question in questions %}
-                <li>
-                    {{ question.question }}
-                    <a href="{% url 'add_answers' test.id question.id %}">(Add Answers)</a>
-                </li>
-            {% endfor %}
-        </ul>
+
     </div>
-</body>
+<ul>
+    {% for question in questions %}
+        <li>
+            {{ question.question }}
+            <form action="{% url 'delete_question' question.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Удалить</button>
+            </form>
+            <a href="{% url 'add_answers' test.id question.id %}">(Добавить ответы)</a>
+        </li>
+    {% endfor %}
+</ul>
+
 </html>

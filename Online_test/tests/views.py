@@ -191,16 +191,19 @@ def add_questions(request, test_id):
 def add_answers(request, test_id, question_id):
     test = get_object_or_404(Test, pk=test_id)
     question = get_object_or_404(Question, pk=question_id)
+
     if request.method == 'POST':
         answer_form = AnswerForm(request.POST, request.FILES)
         if answer_form.is_valid():
             answer = answer_form.save(commit=False)
             answer.question = question
+            answer.user = request.user  # Присваиваем текущего пользователя
             answer.save()
-            return redirect('add_answers', test_id=test_id, question_id=question_id)  # Обновляем страницу
+            return redirect('add_answers', test_id=test_id, question_id=question_id)  # Обновляем страницу с теми же параметрами
     else:
         answer_form = AnswerForm()
         answers = Answer.objects.filter(question=question)  # Получаем уже добавленные ответы
+
     return render(request, 'answer_create.html', {
         'test': test,
         'question': question,
@@ -208,4 +211,17 @@ def add_answers(request, test_id, question_id):
         'answers': answers
     })
 
+
+def delete_answer(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+    if request.method == 'POST':
+        answer.delete()
+    return redirect('add_answers', test_id=answer.question.test.id, question_id=answer.question.id)
+
+
+def delete_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        question.delete()
+    return redirect('question_create', test_id=question.test.id)
 
