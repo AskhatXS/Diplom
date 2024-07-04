@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['oprosy-by-askhat.student-project-it-academy.tw1.ru', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://oprosy-by-askhat.student-project-it-academy.tw1.ru'
+    'https://oprosy-by-askhat.student-project-it-academy.tw1.ru',
     'https://www.oprosy-by-askhat.student-project-it-academy.tw1.ru'
  ]
 
