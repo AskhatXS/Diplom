@@ -23,6 +23,7 @@ urlpatterns = [
     path('unauthenticated/', unauthenticated, name='unauthenticated'),
     path('delete_answer/<int:answer_id>/', views.delete_answer, name='delete_answer'),
     path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
+    path('example/', views.example, name='example')
 ]
 
 

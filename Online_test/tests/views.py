@@ -1,6 +1,6 @@
 from django.contrib.auth import login, logout, authenticate
 from .forms import TestForm, QuestionForm, LoginForm, RegistrationForm
-from django.forms import modelformset_factory
+
 from .models import User, Profile
 from .forms import AnswerForm
 from django.shortcuts import render, get_object_or_404, redirect
@@ -13,6 +13,10 @@ from django.views.generic import CreateView
 
 def home(request):
     return render(request, 'head/home.html')
+
+
+def example(request):
+    return render(request, 'example.html')
 
 
 def base(request):
