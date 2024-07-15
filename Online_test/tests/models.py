@@ -3,19 +3,22 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    description = models.TextField()
-    profile_image_url = models.URLField()
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    bio = models.TextField(null=True, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="img/profile/")
+    facebook = models.CharField(max_length=50, null=True, blank=True)
+    twitter = models.CharField(max_length=50, null=True, blank=True)
+    instagram = models.CharField(max_length=50, null=True, blank=True)
 
-    def __str__(self):
-        return self.name
+
+def __str__(self):
+    return str(self.user)
 
 
 class Question(models.Model):
     question = models.CharField(max_length=255)
     image = models.ImageField(upload_to='questions/', blank=True, null=True)
-    test = models.ForeignKey('Test', related_name='questions', on_delete=models.CASCADE)  # Изменено на ForeignKey
+    test = models.ForeignKey('Test', related_name='questions', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.question

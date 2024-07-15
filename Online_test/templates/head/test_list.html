@@ -1,147 +1,110 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список тестов</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar {
-            background-color: #6a0dad;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-        .center-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-        }
-        .section-wrapper {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 1200px;
-        }
-        .home {
-            margin-bottom: 20px;
-        }
-        .test-columns {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-        .column {
-            flex: 1;
-            padding: 20px;
-            background-color: #f0f0f8;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-height: 400px; /* Added to make the columns more voluminous */
-        }
-        .column h2 {
-            color: #6a0dad;
-        }
-        .column ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .column li {
-            margin-bottom: 10px;
-        }
-        .column a {
-            color: #6a0dad;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-        .column button {
-            background-color: #6a0dad;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .column button:hover {
-            background-color: #5a009d;
-        }
-        .section-content {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .section-content h1 {
-            color: #6a0dad;
-        }
-        .btn-create {
-            background-color: #6a0dad;
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .btn-create:hover {
-            background-color: #5a009d;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-    <div class="navbar">>
-        <a href="{% url 'base' %}">Назад</a>
-    </div>
-    <div class="center-wrapper">
-        <section class="home">
-            <div class="section-wrapper">
-                <div class="section-content">
-                    <h1>Список тестов</h1>
-                    <a href="{% url 'create_test' %}" class="btn-create">Создать тест</a>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+<aside class="bg-white w-64 p-6 border-r border-gray-200">
+            <div class="mb-8">
+                <img src="{% static 'img/logo1.png' %}" height="100" width="100">
+            </div>
+            <nav>
+                <ul>
+                    <li class="mb-4">
+                        <a href="#" class="text-blue-500 font-semibold">Главная страница</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="{% url 'test_list' %}" class="flex items-center text-gray-700">
+                            <span class="mr-2"><i class="fas fa-heart"></i></span>
+                            Список тестов
+                        </a>
+                    </li>
+                </ul>
+                <div class="mt-8">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Функциональность</h3>
+                    <ul class="mt-2">
+                        <li class="mb-4">
+                            <a href="#" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-chart-line"></i></span>
+                                Аналитика
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="#" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-user-cog"></i></span>
+                                Настройка аккаунта
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="#" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-receipt"></i></span>
+                                Поддержать нас
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="test-columns">
-                    <div class="column">
-                        <h2>Ваши тесты</h2>
-                        <ul>
-                            {% for test in user_tests %}
-                                <li>
-                                    <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                    <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h2>Другие тесты</h2>
-                        <ul>
-                            {% for test in other_tests %}
-                                <li>
-                                    <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
-                                    <a href="{% url 'take_test' test.id %}"><button>Пройти тест</button></a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="mt-8">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Resources</h3>
+                    <ul class="mt-2">
+                        <li class="mb-4">
+                            <a href="#" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-book"></i></span>
+                                Документация
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 p-6">
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="text-xl font-semibold text-gray-800">Список тестов</div>
+                <div class="flex items-center space-x-4">
+                    <img src="{{ profile.profile_pic.url }}" class="w-10 h-10 rounded-full border-2 border-gray-300" >
+                    <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
                 </div>
             </div>
-        </section>
+
+            <div class="section-content">
+                <a href="{% url 'create_test' %}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Создать тест</a>
+            </div>
+
+            <!-- Test Columns -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Ваши тесты</h2>
+                    <ul>
+                        {% for test in user_tests %}
+                            <li class="flex justify-between items-center border-b py-2">
+                                <a href="{% url 'test_detail' test.id %}" class="text-blue-700">{{ test.title }}</a>
+                                <a href="{% url 'take_test' test.id %}" class="bg-blue-500 text-white px-2 py-1 rounded">Пройти тест</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Другие тесты</h2>
+                    <ul>
+                        {% for test in other_tests %}
+                            <li class="flex justify-between items-center border-b py-2">
+                                <a href="{% url 'test_detail' test.id %}" class="text-blue-700">{{ test.title }}</a>
+                                <a href="{% url 'take_test' test.id %}" class="bg-blue-500 text-white px-2 py-1 rounded">Пройти тест</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

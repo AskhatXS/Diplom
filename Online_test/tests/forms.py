@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Question, Answer
+from .models import Question, Answer, Profile
 from .models import Test
 
 
@@ -55,4 +55,8 @@ class AnswerForm(forms.ModelForm):
         }
 
 
-#fekw
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'profile_pic', 'facebook', 'twitter', 'instagram']
+

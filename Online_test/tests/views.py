@@ -1,14 +1,14 @@
 from django.contrib.auth import login, logout, authenticate
-from .forms import TestForm, QuestionForm, LoginForm, RegistrationForm
+from .forms import TestForm, QuestionForm, LoginForm, RegistrationForm, ProfileForm
 
 from .models import User, Profile
 from .forms import AnswerForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .models import Test, Question, Answer, TestResult
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 
 def home(request):
@@ -229,3 +229,41 @@ def delete_question(request, question_id):
         question.delete()
     return redirect('question_create', test_id=question.test.id)
 
+
+@login_required
+def profile_view(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return redirect('create_profile')
+    return render(request, 'head/profile.html', {'profile': profile})
+
+
+@login_required
+def create_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm()
+    return render(request, 'head/create_profile.html', {'form': form})
+
+
+@login_required
+def delete_test(request, test_id):
+    test = get_object_or_404(Test, id=test_id)
+
+    if request.user != test.author and not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete this test.")
+        return redirect('test_detail', test_id=test.id)
+
+    if request.method == 'POST':
+        test.delete()
+        messages.success(request, "Test deleted successfully.")
+        return redirect('test_list')
+
+    return render(request, 'tests/confirm_delete.html', {'test': test})
