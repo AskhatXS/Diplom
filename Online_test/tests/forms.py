@@ -6,9 +6,18 @@ from .models import Test
 
 
 class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True, help_text="Обязательное поле.")
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя пользователя'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Электронная почта'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Подтверждение пароля'}),
+        }
+
 
 
 class LoginForm(forms.Form):
