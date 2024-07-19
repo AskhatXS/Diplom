@@ -11,39 +11,39 @@
 <body class="bg-gray-100 font-sans">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-<aside class="bg-white w-64 p-6 border-r border-gray-200">
+        <aside class="bg-white w-64 p-6 border-r border-gray-200">
             <div class="mb-8">
-                <img src="{% static 'img/logo1.png' %}" height="100" width="100">
+                <img src="{% static 'img/logo_black.jpg' %}" class="h-10">
             </div>
             <nav>
                 <ul>
                     <li class="mb-4">
-                        <a href="#" class="text-blue-500 font-semibold">Главная страница</a>
+                        <a href="#" class="text-blue-600 font-semibold hover:underline">Главная страница</a>
                     </li>
                     <li class="mb-4">
-                        <a href="{% url 'test_list' %}" class="flex items-center text-gray-700">
+                        <a href="{% url 'test_list' %}" class="flex items-center text-gray-800 hover:text-blue-600">
                             <span class="mr-2"><i class="fas fa-heart"></i></span>
                             Список тестов
                         </a>
                     </li>
                 </ul>
                 <div class="mt-8">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Функциональность</h3>
+                    <h3 class="text-gray-600 text-xs uppercase tracking-wider">Функциональность</h3>
                     <ul class="mt-2">
                         <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-700">
+                            <a href="#" class="flex items-center text-gray-800 hover:text-blue-600">
                                 <span class="mr-2"><i class="fas fa-chart-line"></i></span>
                                 Аналитика
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-700">
+                            <a href="#" class="flex items-center text-gray-800 hover:text-blue-600">
                                 <span class="mr-2"><i class="fas fa-user-cog"></i></span>
                                 Настройка аккаунта
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-700">
+                            <a href="{% url 'about_us' %}" class="flex items-center text-gray-800 hover:text-blue-600">
                                 <span class="mr-2"><i class="fas fa-receipt"></i></span>
                                 Поддержать нас
                             </a>
@@ -51,10 +51,10 @@
                     </ul>
                 </div>
                 <div class="mt-8">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Resources</h3>
+                    <h3 class="text-gray-600 text-xs uppercase tracking-wider">Resources</h3>
                     <ul class="mt-2">
                         <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-700">
+                            <a href="{% url 'document' %}" class="flex items-center text-gray-800 hover:text-blue-600">
                                 <span class="mr-2"><i class="fas fa-book"></i></span>
                                 Документация
                             </a>
@@ -68,37 +68,37 @@
         <div class="flex-1 p-6">
             <!-- Top Bar -->
             <div class="flex items-center justify-between mb-6">
-                <div class="text-xl font-semibold text-gray-800">Список тестов</div>
+                <div class="text-2xl font-bold text-gray-800">Список тестов</div>
                 <div class="flex items-center space-x-4">
-                    <img src="{{ profile.profile_pic.url }}" class="w-10 h-10 rounded-full border-2 border-gray-300" >
+                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-gray-300">
                     <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
                 </div>
             </div>
 
-            <div class="section-content">
-                <a href="{% url 'create_test' %}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Создать тест</a>
+            <div class="mb-6">
+                <a href="{% url 'create_test' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Создать тест</a>
             </div>
 
             <!-- Test Columns -->
-            <div class="grid grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Ваши тесты</h2>
                     <ul>
                         {% for test in user_tests %}
                             <li class="flex justify-between items-center border-b py-2">
-                                <a href="{% url 'test_detail' test.id %}" class="text-blue-700">{{ test.title }}</a>
-                                <a href="{% url 'take_test' test.id %}" class="bg-blue-500 text-white px-2 py-1 rounded">Пройти тест</a>
+                                <a href="{% url 'test_detail' test.id %}" class="text-blue-600 hover:underline">{{ test.title }}</a>
+                                <a href="{% url 'take_test' test.id %}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Пройти тест</a>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Другие тесты</h2>
                     <ul>
                         {% for test in other_tests %}
                             <li class="flex justify-between items-center border-b py-2">
-                                <a href="{% url 'test_detail' test.id %}" class="text-blue-700">{{ test.title }}</a>
-                                <a href="{% url 'take_test' test.id %}" class="bg-blue-500 text-white px-2 py-1 rounded">Пройти тест</a>
+                                <a href="{% url 'test_detail' test.id %}" class="text-blue-600 hover:underline">{{ test.title }}</a>
+                                <a href="{% url 'take_test' test.id %}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Пройти тест</a>
                             </li>
                         {% endfor %}
                     </ul>

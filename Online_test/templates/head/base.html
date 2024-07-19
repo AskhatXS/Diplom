@@ -1,133 +1,108 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles_for_base.css' %}">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>База</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBfP4KXD_WBcsGDvhzytvd5bM-WzBKV4TeYa876DYV5lnOomUvQMEkoFhE-utzBWqUXgM&usqp=CAU" alt="Логотип">
-                </span>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="bg-white w-64 p-6 border-r border-gray-200">
+            <div class="mb-8">
+                <img src="{% static 'img/logo_black.jpg' %}" class="h-10">
+            </div>
+            <nav>
+                <ul>
+                    <li class="mb-4">
+                        <a href="#" class="text-blue-500 font-semibold">Главная страница</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="{% url 'test_list' %}" class="flex items-center text-gray-700">
+                            <span class="mr-2"><i class="fas fa-cogs"></i></span>
+                            Список тестов
+                        </a>
+                    </li>
+                </ul>
+                <div class="mt-8">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Функциональность</h3>
+                    <ul class="mt-2">
+                        <li class="mb-4">
+                            <a href="{% url 'profile' %}" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-user-cog"></i></span>
+                                Настройка профиля
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="{% url 'about_us' %}" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-receipt"></i></span>
+                                Поддержать нас
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wider">Resources</h3>
+                    <ul class="mt-2">
+                        <li class="mb-4">
+                            <a href="{% url 'document' %}" class="flex items-center text-gray-700">
+                                <span class="mr-2"><i class="fas fa-book"></i></span>
+                                Документация
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
 
-                <div class="text logo-text">
-                    <span class="name">Онлайн Опросы</span>
-                    <span class="profession"></span>
+        <!-- Main content -->
+        <div class="flex-1 p-6">
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="text-xl font-semibold text-gray-800">TestHub</div>
+                <div class="flex items-center space-x-4">
+                    <img src="{{ profile.profile_pic.url }}" class="w-10 h-10 rounded-full border-2 border-gray-300" >
+                    <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
                 </div>
             </div>
-
-            <i class='bx bx-chevron-right toggle'></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-
-                <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="text" placeholder="Поиск">
-                </li>
-
-                <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="{% url 'profile' %}">
-                            <i class='bx bx-home-alt icon' ></i>
-                            <span class="text nav-text">Профиль</span>
-                        </a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="{% url 'test_list' %}">
-                            <i class='bx bx-bell icon'></i>
-                            <span class="text nav-text">Список тестов</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="">
-                            <i class='bx bx-pie-chart-alt icon' ></i>
-                            <span class="text nav-text">Аналитика</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="{% url 'footer' %}">
-                            <i class='bx bx-heart icon' ></i>
-                            <span class="text nav-text">О нас</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-wallet icon' ></i>
-                            <span class="text nav-text">Поддержать нас</span>
-                        </a>
-                    </li>
-
-                </ul>
+            <!-- Search Bar -->
+            <div class="relative mb-6">
+                <input type="text" class="w-full p-4 pl-12 pr-4 border border-gray-300 rounded-lg" placeholder="Поиск">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
             </div>
 
-            <div class="bottom-content">
-                <li class="">
-                    <a href="logout">
-                        <i class='bx bx-log-out icon' ></i>
-                        <span class="text nav-text">Выйти</span>
-                    </a>
-                </li>
-
-                <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
+            <!-- Content Grid -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="col-span-2 flex items-center justify-between bg-blue-900 text-white p-6 rounded-lg">
+                    <div>
+                        <h2 class="text-2xl font-bold">TestHub поможет вам создать первый тест!</h2>
+                        <p class="mt-2">Создавайте и управляйте тестами легко и быстро с помощью нашего удобного интерфейса. Начните уже сегодня и сделайте ваш образовательный процесс более интерактивным и эффективным.</p>
                     </div>
-                    <span class="mode-text text">Тёмный </span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
+                    <button class="bg-white text-blue-900 px-4 py-2 rounded">Создать новый тест</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Подробнее о функционале сайта</h3>
+                    <div class="flex items-center justify-between bg-blue-900 text-white p-4 rounded-lg">
+                        <div>
+                            <input type="checkbox" class="ml-2" checked>
+                            <span class="text-sm ml-4">Тестовая среда</span>
+                        </div>
+                        <button class="bg-white text-blue-900 px-4 py-2 rounded">Посмотреть документацию</button>
                     </div>
-                </li>
-
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Аналитика</h3>
+                    <p class="text-gray-700">Отслеживайте результаты тестирования, анализируйте успеваемость пользователей и оптимизируйте тесты для достижения лучших результатов.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Настройка тестов</h3>
+                    <p class="text-gray-700">Комбинируйте различные форматы вопросов, задавайте временные ограничения и создавайте тесты под любые нужды.</p>
+                </div>
             </div>
         </div>
-
-    </nav>
-
-    <section class="home">
-        <div class="text">Онлайн опросы и тесты</div>
-    </section>
-
-    <script>
-        const body = document.querySelector('body'),
-      sidebar = body.querySelector('nav'),
-      toggle = body.querySelector(".toggle"),
-      searchBtn = body.querySelector(".search-box"),
-      modeSwitch = body.querySelector(".toggle-switch"),
-      modeText = body.querySelector(".mode-text");
-
-
-toggle.addEventListener("click" , () =>{
-    sidebar.classList.toggle("close");
-})
-
-searchBtn.addEventListener("click" , () =>{
-    sidebar.classList.remove("close");
-})
-
-modeSwitch.addEventListener("click" , () =>{
-    body.classList.toggle("dark");
-
-    if(body.classList.contains("dark")){
-        modeText.innerText = "Светлый режим";
-    }else{
-        modeText.innerText = "Тёмный режим";
-
-    }
-});
-    </script>
-
+    </div>
 </body>
 </html>

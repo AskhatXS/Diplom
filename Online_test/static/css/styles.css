@@ -1,52 +1,181 @@
-/* styles.css */
-
-body {
-    font-family: Arial, sans-serif;
+/* Сброс стилей и основные настройки */
+* {
+    padding: 0;
     margin: 0;
-    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-x: hidden;
+}
+ul { list-style: none; }
+a { text-decoration: unset; }
+a:hover { text-decoration: underline; }
+ul > li > a { color:#fff; }
+ul > li { line-height: 1.5em; }
+
+/* Стили футера */
+.footer {
+    display: block;
+    width: 100%;
+    position: relative;
+    background: #150c21;
+    padding: 150px 25px 50px 25px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.footer .footer-start {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1280px;
+    width: 90%;
+    margin: auto;
+    padding: 80px 100px;
+    background: #705df2;
+    border-radius: 15px;
+}
+.footer .start-learning {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -150px;
+}
+.footer .inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    column-gap: 20px;
+    row-gap: 20px;
+    max-width: 1180px;
+    margin: auto;
+    text-align: left;
+}
+.footer .main-logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.footer .main-logo .logo {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.footer .main-logo .logo > img {
+    display: block;
+    width: 100%;
+    min-width: 40px;
+}
+.footer .logo-info {
+    text-align: left;
+    line-height: 20px;
+}
+.footer .text {
+    font-size: 17px;
+    line-height: 17px;
+    color: #fff;
+    letter-spacing: .18em;
+    font-weight: 600;
+}
+.footer .copyright {
+    color: #fff;
+    font-size: 12px;
+    line-height: 12px;
+}
+.footer .column {
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+}
+.footer .column .column-title {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 0.5em;
+    color: #fff;
+}
+.footer .column .column-title:not(:first-child) {
+    margin-top: 1em;
+}
+.footer .illustration {
+    left: 8%;
+    position: absolute;
+    top: -28px;
+}
+.footer a.button {
+    display: inline-flex;
+    position: relative;
+    height: 60px;
+    margin-right: 20px;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    background: #fff;
+    color: #705df2;
+    border-radius: 36px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 30px;
+    text-decoration: unset;
+    box-shadow: 0px 24px 74px rgb(60 0 189 / 20%);
+}
+.footer .section-title {
+    font-size: 44px;
+    font-weight: 700;
+    color: #fff;
+}
+.footer .section-sub-heading {
+    font-size: 22px;
+    font-weight: 400;
+    color: #fff;
+}
+.footer .section-sub-heading span {
+    opacity: 0.6;
+}
+.footer .section-sub-heading strong {
+    font-weight: 600;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    color: #333;
-    text-align: center;
-}
-
-h2 {
-    color: #007bff;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+/* Адаптивные стили */
+@media only screen and (max-width: 990px) and (min-width: 200px) {
+    body {
+        height: auto;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .footer .inner {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .footer .start-learning {
+        position: unset;
+    }
+    .footer .footer-start {
+        width: 100%;
+        display: block;
+        padding: 30px 20px;
+        margin: 30px 0;
+    }
+    .footer .section-title {
+        font-size: 30px;
+    }
+    .footer .section-sub-heading {
+        font-size: 18px;
+    }
+    .footer {
+        padding-top: 0;
+    }
+    .footer a.button {
+        height: 50px;
+        margin-top: 10px;
+    }
+    .footer .column.is-logo {
+        order: 4;
+    }
 }

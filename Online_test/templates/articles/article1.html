@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как создать успешный онлайн опрос?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Header -->
+    <header class="bg-gray-900 py-4">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <div class="flex items-center">
+                <img src="{% static 'img/logo1.png' %}" class="h-11">
+                <nav class="ml-6">
+                    <ul class="flex space-x-6">
+                        <li><a href="{% url 'home' %}" class="text-white">Главная</a></li>
+
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Поиск..." class="px-4 py-2 rounded-md bg-gray-800 text-gray-300">
+                <a href="{% url 'login' %}" class="text-white">Логин</a>
+                <a href="{% url 'register' %}" class="text-white">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-5xl font-bold text-white mb-4">Как создать успешный онлайн опрос?</h1>
+        <p class="text-lg text-gray-400 mb-8">Полезные советы и рекомендации.</p>
+        <div class="flex justify-center mb-8">
+            <img src="{% static 'img/article_1.jpg' %}" alt="Article Image" class="w-full max-w-3xl h-auto object-cover rounded-lg">
+        </div>
+        <div class="flex flex-col items-center">
+            <p class="text-2xl text-white mt-4 mb-4 text-center max-w-3xl">
+                В создании успешного онлайн-опроса важны несколько ключевых факторов. Начните с определения целей вашего опроса: что вы хотите узнать и как эти данные будут использоваться.
+            </p>
+            <p class="text-2xl text-white mb-4 text-center max-w-3xl">
+                Продумайте структуру вопросов: они должны быть ясными и конкретными, избегайте сложных формулировок и двусмысленностей. Также важно учесть целевую аудиторию и обеспечить, чтобы опрос был доступен на различных устройствах.
+            </p>
+            <p class="text-2xl text-white mb-4 text-center max-w-3xl">
+                Не забывайте о тестировании перед запуском, чтобы избежать ошибок и обеспечить удобство для респондентов. Использование правильных инструментов для сбора и анализа данных также сыграет значительную роль в успешности вашего опроса.
+            </p>
+        </div>
+    </main>
+    <a href="{% url 'home' %}" class="fixed bottom-4 left-4 bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Назад
+    </a>
+</body>
+</html>

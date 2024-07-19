@@ -15,6 +15,26 @@ def home(request):
     return render(request, 'head/home.html')
 
 
+def not_authorized(request):
+    return render(request, 'register/not_authorized.html')
+
+
+def article1(request):
+    return render(request, 'articles/article1.html')
+
+
+def about_us(request):
+    return render(request, 'head/about_us.html')
+
+
+def article2(request):
+    return render(request, 'articles/article2.html')
+
+
+def article3(request):
+    return render(request, 'articles/article3.html')
+
+
 def example(request):
     return render(request, 'example.html')
 
@@ -27,10 +47,11 @@ def unauthenticated(request):
     return render(request, 'register/unauth.html')
 
 
-def footer(request):
-    return render(request, 'head/footer.html')
+def document(request):
+    return render(request, 'head/document.html')
 
 
+@login_required(login_url='not_authorized/')
 def profile_view(request):
     profile = Profile.objects.first()
     return render(request, 'head/profile.html', {'profile': profile})
@@ -56,7 +77,6 @@ def user_login(request):
     return render(request, 'register/login.html', {'form': form})
 
 
-
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -69,6 +89,7 @@ def register(request):
     return render(request, 'register/register.html', {'form': form})
 
 
+@login_required(login_url='not_authorized/')
 def logout_view(request):
     logout(request)
     return redirect('home')
@@ -140,9 +161,11 @@ def test_results(request, user_id, test_id):
     return render(request, 'test_results.html', {'result': result, 'user': user, 'test': test})
 
 
+@login_required(login_url='not_authorized/')
 def retake_test(request, test_id):
     Answer.objects.filter(question__in=Test.objects.get(id=test_id).questions.all(), user=request.user).delete()
     return redirect('take_test', test_id=test_id)
+
 
 @login_required
 def test_list(request):
@@ -153,6 +176,7 @@ def test_list(request):
         return render(request, 'head/test_list.html', {'user_tests': user_tests, 'other_tests': other_tests})
 
 
+@login_required(login_url='not_authorized/')
 def test_detail(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     return render(request, 'test_DETAIL/test_detail.html', {'test': test})
@@ -168,7 +192,6 @@ class TestCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        # После создания теста перенаправляем пользователя на страницу добавления вопросов
         return reverse('add_questions', args=[self.object.id])
 
     def get_initial(self):
@@ -177,6 +200,7 @@ class TestCreateView(CreateView):
         return initial
 
 
+@login_required(login_url='not_authorized/')
 def add_questions(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
     if request.method == 'POST':
@@ -192,6 +216,7 @@ def add_questions(request, test_id):
     return render(request, 'question_create.html', {'test': test, 'question_form': question_form, 'questions': questions})
 
 
+@login_required(login_url='not_authorized/')
 def add_answers(request, test_id, question_id):
     test = get_object_or_404(Test, pk=test_id)
     question = get_object_or_404(Question, pk=question_id)
@@ -216,6 +241,7 @@ def add_answers(request, test_id, question_id):
     })
 
 
+@login_required(login_url='not_authorized/')
 def delete_answer(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.method == 'POST':
@@ -223,6 +249,7 @@ def delete_answer(request, answer_id):
     return redirect('add_answers', test_id=answer.question.test.id, question_id=answer.question.id)
 
 
+@login_required(login_url='not_authorized/')
 def delete_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
@@ -266,4 +293,6 @@ def delete_test(request, test_id):
         messages.success(request, "Test deleted successfully.")
         return redirect('test_list')
 
-    return render(request, 'tests/confirm_delete.html', {'test': test})
+    return render(request, 'delete_test.html', {'test': test})
+
+

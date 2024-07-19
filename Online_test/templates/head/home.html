@@ -1,139 +1,174 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Онлайн Опросы и Тесты</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-        .jumbotron {
-            background: linear-gradient(to right, #8e44ad, #6a1b9a); /* Фиолетовый градиент */
-            color: white;
-            text-align: center;
-        }
-        .feature {
-            text-align: center;
-            padding: 20px;
-        }
-        .feature h3 {
-            margin-top: 10px;
-        }
-        .btn-primary {
-            background-color: #8e44ad; /* Пурпурный цвет для кнопки входа */
-            border-color: #8e44ad;
-        }
-        .btn-primary:hover {
-            background-color: #732d91; /* Более темный пурпурный при наведении */
-            border-color: #732d91;
-        }
-        .btn-success {
-            background-color: #ff69b4; /* Розовый цвет для кнопки регистрации */
-            border-color: #ff69b4;
-        }
-        .btn-success:hover {
-            background-color: #ff3c87; /* Более темный розовый при наведении */
-            border-color: #ff3c87;
-        }
-        .navbar {
-            background-color: #e6e6fa; /* Светло-фиолетовый цвет */
-        }
-        .navbar-light .navbar-brand {
-            color: black;
-        }
-        .navbar-light .navbar-nav .nav-link {
-            color: black;
-        }
-        footer {
-            background-color: #e6e6fa; /* Светло-фиолетовый цвет */
-            color: black;
-            padding: 10px 0;
-        }
-    </style>
-    <meta name="keywords" content="Опросы,тесты,tests,oprosy,askhat,OPROSY,тестировать,Опросы и тесты,">
-    <meta name="description" content="Это описание сайта, который предоставляет платформу для создания, управления и прохождения онлайн-тестов и опросов. Наш сайт предлагает удобный интерфейс и разнообразные функции для пользователей, включая преподавателей, бизнес-аналитиков и HR-специалистов.">
-    <meta name="google-site-verification" content="7NGWqS2INfUeatJNaqm6qg0i8eR7R6n7qHRm36dSSf8" />
-    <meta name="google-site-verification" content="7NGWqS2INfUeatJNaqm6qg0i8eR7R6n7qHRm36dSSf8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">Опросы и Тесты</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#about">О платформе</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#features">Возможности</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#contact">Контакты</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-primary text-white" href="/login">Войти</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-success text-white ml-2" href="/register">Регистрация</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<body class="bg-gray-900 text-white">
 
-<div class="jumbotron">
-    <div class="container">
-        <h1 class="display-4">Добро пожаловать на платформу онлайн-опросов и тестов</h1>
-        <p class="lead">Создавайте, управляйте и проходите опросы и тесты. Инструмент для учителей, бизнес-аналитиков, HR-специалистов и всех, кто нуждается в удобном инструменте для создания и анализа опросов и тестов.</p>
-        <a class="btn btn-primary btn-lg" href="/register" role="button">Начать сейчас</a>
-    </div>
-</div>
+    <!-- Header -->
+    <header class="bg-gray-900 py-4">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <div class="flex items-center">
+                <img src="{% static 'img/logo1.png' %}" class="h-11">
+                <nav class="ml-6">
+                    <ul class="flex space-x-6">
+                        <li><a href="#" class="text-white">Главная</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Об опросах</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Поиск..." class="px-4 py-2 rounded-md bg-gray-800 text-gray-300">
+                <a href="{% url 'login' %}" class="text-white">Логин</a>
+                <a href="{% url 'register' %}" class="text-white">Регистрация</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container" id="about">
-    <div class="row">
-        <div class="col-lg-12">
-            <h2>О нашей платформе</h2>
-            <p>Наша платформа предоставляет удобный доступ к инструментам для создания, управления и прохождения онлайн-опросов и тестов. Мы стремимся сделать процесс анализа данных доступным и комфортным для всех пользователей.</p>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-5xl font-bold text-white mb-4">Создание и Проведение Опросов и Тестов Онлайн</h1>
+        <p class="text-lg text-gray-400 mb-8">На нашей платформе вы можете создавать и проходить разнообразные опросы и тесты. Узнайте больше <a href="#" class="text-white underline">о нас</a> или <a href="#" class="text-white underline">создайте опрос/тест</a> и делитесь результатами с коллегами и друзьями.</p>
+        <div class="flex justify-center space-x-4">
+            <a href="#" class="bg-pink-600 text-white px-6 py-3 rounded-md hover:bg-pink-700 transition duration-300">Подписаться на наш Telegram <i class="fas fa-paper-plane"></i></a>
+        </div>
+    </main>
+
+    <!-- Articles Section -->
+    <section class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Наши статьи</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <a href="{% url 'article1' %}" class="bg-white rounded-md overflow-hidden shadow-lg max-w-xs">
+                    <img src="{% static 'img/article_1.jpg' %}" alt="Article 1 Image" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-gray-900">Как создать успешный онлайн опрос?</h2>
+                        <p class="text-gray-600 mt-2">Полезные советы и рекомендации.</p>
+                    </div>
+                </a>
+                <a href="{% url 'article2' %}" class="bg-white rounded-md overflow-hidden shadow-lg max-w-xs">
+                    <img src="{% static 'img/article2.png' %}" alt="Article 2 Image" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-gray-900">Лучшие практики для проведения тестов</h2>
+                        <p class="text-gray-600 mt-2">Как сделать ваши тесты эффективными и интересными.</p>
+                    </div>
+                </a>
+                <a href="{% url 'article3' %}" class="bg-white rounded-md overflow-hidden shadow-lg max-w-xs">
+                    <img src="{% static 'img/article33.jpg' %}" alt="Article 3 Image" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold text-gray-900">Использование аналитики в онлайн опросах</h2>
+                        <p class="text-gray-600 mt-2">Как анализировать результаты и получать инсайты.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Reviews Section -->
+    <section class="bg-gray-800 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">Отзывы наших пользователей</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <div class="bg-gray-700 rounded-md p-6 w-full max-w-sm">
+                    <p class="text-gray-300 mb-4">"Отличная платформа для проведения опросов. Легко использовать и удобно для анализа данных!"</p>
+                    <p class="text-gray-400">Марсель Арзыбеков</p>
+                </div>
+                <div class="bg-gray-700 rounded-md p-6 w-full max-w-sm">
+                    <p class="text-gray-300 mb-4">"Удобный интерфейс и много полезных функций для создания тестов. Очень доволен!"</p>
+                    <p class="text-gray-400">Андрей Иванников</p>
+                </div>
+                <div class="bg-gray-700 rounded-md p-6 w-full max-w-sm">
+                    <p class="text-gray-300 mb-4">"Хороший инструмент для аналитики опросов. Помогает быстро принимать решения на основе данных."</p>
+                    <p class="text-gray-400">Никита Прохоров</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="bg-gray-900 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">Часто задаваемые вопросы</h2>
+            <div class="space-y-8">
+                <div class="bg-gray-800 rounded-md p-6">
+                    <h3 class="text-xl font-semibold text-white mb-4">Как зарегистрироваться на платформе?</h3>
+                    <p class="text-gray-400">Для регистрации вам необходимо заполнить форму на странице регистрации и подтвердить свою электронную почту.</p>
+                </div>
+                <div class="bg-gray-800 rounded-md p-6">
+                    <h3 class="text-xl font-semibold text-white mb-4">Как создать новый тест?</h3>
+                    <p class="text-gray-400">Перейдите в раздел "Тесты", нажмите кнопку "Создать тест" и следуйте инструкциям на экране.</p>
+                </div>
+                <div class="bg-gray-800 rounded-md p-6">
+                    <h3 class="text-xl font-semibold text-white mb-4">Можно ли анализировать результаты тестов?</h3>
+                    <p class="text-gray-400">Да, наша платформа предоставляет подробные отчеты и аналитические инструменты для оценки результатов тестов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Partners Section -->
+<section class="bg-gray-700 py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-2xl font-bold text-white mb-8">Наши Партнеры и Клиенты</h2>
+        <div class="flex flex-wrap justify-center gap-8">
+            <div class="w-1/4 overflow-hidden">
+                <img src="{% static 'img/img.png' %}" alt="Partner 1" class="w-full h-40 object-contain rounded-md">
+                <p class="text-xs text-gray-300 mt-2">Партнер 1</p>
+            </div>
+            <div class="w-1/4 overflow-hidden">
+                <img src="{% static 'img/microsoft.png' %}" alt="Partner 2" class="w-full h-40 object-contain rounded-md">
+                <p class="text-xs text-gray-300 mt-2">Партнер 2</p>
+            </div>
+            <div class="w-1/4 overflow-hidden">
+                <img src="{% static 'img/google.png' %}" alt="Partner 3" class="w-full h-40 object-contain rounded-md">
+                <p class="text-xs text-gray-300 mt-2">Партнер 3</p>
+            </div>
+            <div class="w-1/4 overflow-hidden">
+                <img src="{% static 'img/apple.png' %}" alt="Partner 4" class="w-full h-40 object-contain rounded-md">
+                <p class="text-xs text-gray-300 mt-2">Партнер 4</p>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container" id="features">
-    <div class="row">
-        <div class="col-md-4 feature">
-            <i class="fas fa-user-plus fa-3x"></i>
-            <h3>Регистрация и аутентификация</h3>
-            <p>Простая регистрация и вход для доступа к опросам и тестам.</p>
+    <!-- Contact Form Section -->
+    <section class="bg-gray-800 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">Связаться с нами</h2>
+            <form class="bg-gray-700 rounded-md p-8 max-w-lg mx-auto">
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label for="name" class="text-white">Имя</label>
+                        <input type="text" id="name" class="w-full p-3 rounded-md bg-gray-600 text-white" required>
+                    </div>
+                    <div>
+                        <label for="email" class="text-white">Электронная почта</label>
+                        <input type="email" id="email" class="w-full p-3 rounded-md bg-gray-600 text-white" required>
+                    </div>
+                    <div>
+                        <label for="message" class="text-white">Сообщение</label>
+                        <textarea id="message" rows="4" class="w-full p-3 rounded-md bg-gray-600 text-white" required></textarea>
+                    </div>
+                    <button type="submit" class="bg-pink-600 text-white px-6 py-3 rounded-md hover:bg-pink-700 transition duration-300">Отправить сообщение</button>
+                </div>
+            </form>
         </div>
-        <div class="col-md-4 feature">
-            <i class="fas fa-poll fa-3x"></i>
-            <h3>Создание и управление</h3>
-            <p>Создавайте и редактируйте опросы и тесты с различными типами вопросов.</p>
-        </div>
-        <div class="col-md-4 feature">
-            <i class="fas fa-chart-line fa-3x"></i>
-            <h3>Анализ результатов</h3>
-            <p>Просматривайте и анализируйте результаты в удобном формате.</p>
-        </div>
-    </div>
-</div>
+    </section>
 
-<div class="container" id="contact">
-    <div class="row">
-        <div class="col-lg-12"
-            <h2>Контакты</h2>
-            <p>Если у вас есть вопросы или предложения, пожалуйста, свяжитесь с нами по электронной почте: soupdolt@gmail.com.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500 mb-2">© 2024 Онлайн Опросы и Тесты. Все права защищены.</p>
+            <p class="text-gray-500">Сделано с душой <i class="fas fa-heart"></i></p>
         </div>
-    </div>
-</div>
+    </footer>
 
-<footer class="text-center">
-    <p>&copy; 2024 Онлайн Опросы и Тесты. Все права защищены.</p>
-</footer>
-
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

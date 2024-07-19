@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лучшие практики для проведения тестов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Header -->
+    <header class="bg-gray-900 py-4">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <div class="flex items-center">
+                <img src="{% static 'img/logo1.png' %}" class="h-11">
+                <nav class="ml-6">
+                    <ul class="flex space-x-6">
+                        <li><a href="{% url 'home' %}" class="text-white">Главная</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Поиск..." class="px-4 py-2 rounded-md bg-gray-800 text-gray-300">
+                <a href="{% url 'login' %}" class="text-white">Логин</a>
+                <a href="{% url 'register' %}" class="text-white">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-5xl font-bold text-white mb-4">Лучшие практики для проведения тестов</h1>
+        <p class="text-lg text-gray-400 mb-8">Как сделать ваши тесты эффективными и интересными.</p>
+        <img src="{% static 'img/article2.png' %}" alt="Article Image" class="w-4/5 h-auto mx-auto rounded-lg mb-8">
+        <p class="text-gray-400 mt-4">Эффективные тесты не только помогают оценить знания, но и мотивируют студентов к обучению. Для того чтобы ваши тесты приносили максимальную пользу, следуйте этим рекомендациям:
+
+        <ul class="list-disc list-inside text-gray-400 mb-8">
+            <li><strong>Четкость формулировок:</strong> Убедитесь, что вопросы и варианты ответов ясно сформулированы, чтобы избежать путаницы.</li>
+            <li><strong>Разнообразие типов вопросов:</strong> Используйте различные форматы вопросов, такие как множественный выбор, открытые вопросы и задачи на сопоставление.</li>
+            <li><strong>Сбалансированная сложность:</strong> Включайте вопросы разного уровня сложности, чтобы охватить весь спектр знаний.</li>
+            <li><strong>Практическое применение:</strong> Включайте вопросы, которые требуют применения знаний на практике, а не просто запоминания фактов.</li>
+            <li><strong>Регулярная обратная связь:</strong> Предоставляйте студентам обратную связь по результатам тестов, чтобы они могли учиться на своих ошибках.</li>
+        </ul>
+
+        Следуя этим рекомендациям, вы сможете создать тесты, которые будут не только оценивать знания, но и способствовать более глубокому пониманию материала и повышению мотивации студентов.</p>
+    </main>
+
+    <!-- Floating Back Button -->
+    <a href="{% url 'home' %}" class="fixed bottom-4 left-4 bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Назад
+    </a>
+</body>
+</html>

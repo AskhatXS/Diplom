@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация проекта</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-blue-500 text-white py-4">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <img src="{% static 'img/logo1.png' %}" class='h-11' alt="Logo">
+                <h1 class="text-2xl font-semibold">Документация проекта</h1>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-1 p-6">
+            <div class="container mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-semibold mb-6">Техническое задание</h2>
+
+                <!-- Introduction -->
+                <section class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">1. Введение</h3>
+                    <p class="text-gray-700">
+                        Целью данного проекта является разработка веб-приложения для создания, управления и прохождения онлайн-опросов и тестов. Платформа предназначена для широкого круга пользователей, включая учителей, бизнес-аналитиков, HR-специалистов и всех, кто нуждается в удобном инструменте для создания и анализа опросов и тестов.
+                    </p>
+                </section>
+
+                <!-- Functional Requirements -->
+                <section class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">2. Функциональные требования</h3>
+
+                    <h4 class="text-xl font-semibold mb-2">2.1. Регистрация и аутентификация</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Пользователи могут зарегистрироваться на платформе, указав свой email и пароль.</li>
+                        <li>Зарегистрированные пользователи могут аутентифицироваться в системе.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">2.2. Создание и управление опросами и тестами</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Пользователи могут создавать новые опросы и тесты, указывая их название, описание и вопросы.</li>
+                        <li>Вопросы могут иметь различные типы ответов, такие как одиночный выбор, множественный выбор, текстовый ответ и др.</li>
+                        <li>Пользователи имеют возможность редактировать и удалять созданные опросы и тесты.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">2.3. Публикация и прохождение опросов и тестов</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Пользователи могут опубликовывать созданные опросы и тесты для доступа других пользователей.</li>
+                        <li>Доступ к опросам и тестам может быть ограничен по необходимости: публичный доступ, доступ по ссылке или доступ только для зарегистрированных пользователей.</li>
+                        <li>Участники могут проходить опросы и тесты, отвечая на вопросы и отправляя свои ответы.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">2.4. Анализ результатов</h4>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Авторы опросов и тестов могут просматривать результаты прохождения, а также анализировать их в удобном формате: графики, статистика и т.д.</li>
+                        <li>Участники могут просматривать свои собственные результаты прохождения.</li>
+                    </ul>
+                </section>
+
+                <!-- Non-Functional Requirements -->
+                <section class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">3. Нефункциональные требования</h3>
+
+                    <h4 class="text-xl font-semibold mb-2">3.1. Интерфейс</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Веб-интерфейс должен быть интуитивно понятным и легким в использовании.</li>
+                        <li>Дизайн должен быть адаптивным для корректного отображения на различных устройствах.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">3.2. Безопасность</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Все данные пользователей, включая пароли и персональные данные, должны храниться в зашифрованном виде.</li>
+                        <li>Платформа должна быть защищена от атак типа CSRF и XSS.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">3.3. Производительность</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Система должна быть оптимизирована для быстрой загрузки страниц и обработки запросов.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-2">3.4. Масштабируемость</h4>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Архитектура системы должна быть масштабируемой для поддержки большого количества опросов и тестов, а также пользователей.</li>
+                    </ul>
+                </section>
+
+                <!-- Technology Stack -->
+                <section class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">4. Технологический стек</h3>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Фреймворк: Django</li>
+                        <li>Язык программирования: Python</li>
+                        <li>СУБД: Sqlite3</li>
+                        <li>Фронтенд: HTML, CSS</li>
+                    </ul>
+                </section>
+
+                <!-- Work Plan -->
+                <section class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">5. План работ</h3>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li>Настройка окружения разработки.</li>
+                        <li>Создание моделей данных для опросов, вопросов и ответов.</li>
+                        <li>Разработка функционала регистрации и аутентификации пользователей.</li>
+                        <li>Разработка интерфейса для создания, редактирования и прохождения опросов и тестов.</li>
+                        <li>Разработка функционала анализа результатов.</li>
+                        <li>Тестирование и отладка системы.</li>
+                        <li>Развертывание проекта на сервере.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-2xl font-semibold mb-4">6. Ожидаемые результаты</h3>
+                    <p class="text-gray-700">
+                        Разработанная платформа должна предоставлять удобный и надежный инструмент для создания, публикации и прохождения онлайн-опросов и тестов.
+                    </p>
+                </section>
+            </div>
+        </main>
+        <footer class="bg-gray-800 text-white py-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2024 Ваш Проект. Все права защищены.</p>
+            </div>
+        </footer>
+    </div>
+    <a href="{% url 'base' %}" class="fixed bottom-4 left-4 bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Назад
+    </a>
+</body>
+</html>
