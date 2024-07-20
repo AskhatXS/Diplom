@@ -23,9 +23,15 @@ def article1(request):
     return render(request, 'articles/article1.html')
 
 
+def survey(request):
+    return render(request, 'head/about_survey.html')
+
 def about_us(request):
     return render(request, 'head/about_us.html')
 
+
+def about_us2(request):
+    return render(request, 'head/about_us2.html')
 
 def article2(request):
     return render(request, 'articles/article2.html')
@@ -33,12 +39,6 @@ def article2(request):
 
 def article3(request):
     return render(request, 'articles/article3.html')
-
-
-def example(request):
-    return render(request, 'example.html')
-
-
 def base(request):
     return render(request, 'head/base.html')
 
@@ -97,27 +97,6 @@ def logout_view(request):
 
 
 @login_required
-def edit_test(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    if request.method == 'POST':
-        form = TestForm(request.POST, instance=test)
-        if form.is_valid():
-            form.save()
-            return redirect('test_detail', test_id=test.id)
-    else:
-        form = TestForm(instance=test)
-
-    return render(request, 'test_DETAIL/edit_test.html', {'form': form, 'test': test})
-
-
-@login_required
-def delete_test(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    test.delete()
-    return redirect('test_list')
-
-
-@login_required
 def take_test(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
     questions = test.questions.all()
@@ -160,13 +139,6 @@ def test_results(request, user_id, test_id):
     test = get_object_or_404(Test, pk=test_id)
     result = get_object_or_404(TestResult, user=user, test=test)
     return render(request, 'test_results.html', {'result': result, 'user': user, 'test': test})
-
-
-@login_required(login_url='not_authorized/')
-def retake_test(request, test_id):
-    Answer.objects.filter(question__in=Test.objects.get(id=test_id).questions.all(), user=request.user).delete()
-    return redirect('take_test', test_id=test_id)
-
 
 @login_required
 def test_list(request):
@@ -254,31 +226,10 @@ def delete_answer(request, answer_id):
 def delete_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
+        test_id = question.test.id
         question.delete()
-    return redirect('question_create', test_id=question.test.id)
-
-
-@login_required
-def profile_view(request):
-    try:
-        profile = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
-        return redirect('create_profile')
-    return render(request, 'head/profile.html', {'profile': profile})
-
-
-@login_required
-def create_profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            return redirect('profile')
-    else:
-        form = ProfileForm()
-    return render(request, 'head/create_profile.html', {'form': form})
+        return redirect('add_questions', test_id=test_id)
+    return redirect('')
 
 
 @login_required
@@ -294,6 +245,7 @@ def delete_test(request, test_id):
         messages.success(request, "Test deleted successfully.")
         return redirect('test_list')
 
-    return render(request, 'delete_test.html', {'test': test})
+    return render(request, 'test_DETAIL/delete_test.html', {'test': test})
+
 
 

@@ -21,27 +21,15 @@
                         <a href="#" class="text-blue-600 font-semibold hover:underline">Главная страница</a>
                     </li>
                     <li class="mb-4">
-                        <a href="{% url 'test_list' %}" class="flex items-center text-gray-800 hover:text-blue-600">
-                            <span class="mr-2"><i class="fas fa-heart"></i></span>
-                            Список тестов
+                        <a href="{% url 'base' %}" class="flex items-center text-gray-800 hover:text-blue-600">
+                            <span class="mr-2"><i class="fa fa-desktop" aria-hidden="true"></i></span>
+                            На главную
                         </a>
                     </li>
                 </ul>
                 <div class="mt-8">
                     <h3 class="text-gray-600 text-xs uppercase tracking-wider">Функциональность</h3>
                     <ul class="mt-2">
-                        <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-800 hover:text-blue-600">
-                                <span class="mr-2"><i class="fas fa-chart-line"></i></span>
-                                Аналитика
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="#" class="flex items-center text-gray-800 hover:text-blue-600">
-                                <span class="mr-2"><i class="fas fa-user-cog"></i></span>
-                                Настройка аккаунта
-                            </a>
-                        </li>
                         <li class="mb-4">
                             <a href="{% url 'about_us' %}" class="flex items-center text-gray-800 hover:text-blue-600">
                                 <span class="mr-2"><i class="fas fa-receipt"></i></span>
@@ -69,10 +57,7 @@
             <!-- Top Bar -->
             <div class="flex items-center justify-between mb-6">
                 <div class="text-2xl font-bold text-gray-800">Список тестов</div>
-                <div class="flex items-center space-x-4">
-                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-gray-300">
-                    <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
-                </div>
+                <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
             </div>
 
             <div class="mb-6">
@@ -87,7 +72,10 @@
                         {% for test in user_tests %}
                             <li class="flex justify-between items-center border-b py-2">
                                 <a href="{% url 'test_detail' test.id %}" class="text-blue-600 hover:underline">{{ test.title }}</a>
-                                <a href="{% url 'take_test' test.id %}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Пройти тест</a>
+                                <div class="flex space-x-2">
+                                    <a href="{% url 'take_test' test.id %}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Пройти тест</a>
+                                    <a href="{% url 'delete_test' test.id %}" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Удалить</a>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>

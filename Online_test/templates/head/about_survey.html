@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Об Опросах</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Header -->
+    <header class="bg-gray-900 py-4">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <div class="flex items-center">
+                <img src="{% static 'img/logo1.png' %}" class="h-11">
+                <nav class="ml-6">
+                    <ul class="flex space-x-6">
+                        <li><a href="{% url 'home' %}" class="text-white">Главная</a></li>
+                        <li><a href="{% url 'about_survey' %}" class="text-gray-400 hover:text-white">Об опросах</a></li>
+                        <li><a href="{% url 'about_us' %}" class="text-gray-400 hover:text-white">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Поиск..." class="px-4 py-2 rounded-md bg-gray-800 text-gray-300">
+                <a href="{% url 'login' %}" class="text-white">Логин</a>
+                <a href="{% url 'register' %}" class="text-white">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 text-center">
+        <h1 class="text-5xl font-bold text-white mb-4">Всё об Опросах</h1>
+        <p class="text-lg text-gray-400 mb-8">На нашей платформе вы можете создавать и проходить разнообразные опросы. Узнайте больше о процессе создания и проведении опросов.</p>
+
+        <section class="text-left">
+            <h2 class="text-3xl font-bold text-white mb-4">Что такое опросы?</h2>
+            <p class="text-gray-400 mb-4">Опросы — это эффективный инструмент для сбора данных, мнений и обратной связи от аудитории. С их помощью можно получать ценные инсайты и улучшать процессы.</p>
+
+            <h2 class="text-3xl font-bold text-white mb-4">Как создать опрос?</h2>
+            <ul class="list-disc list-inside text-gray-400 mb-4">
+                <li>Зарегистрируйтесь на нашей платформе или войдите в свою учетную запись.</li>
+                <li>Перейдите в раздел "Создать опрос".</li>
+                <li>Заполните форму с вопросами и вариантами ответов.</li>
+                <li>Сохраните и опубликуйте ваш опрос.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold text-white mb-4">Как пройти опрос?</h2>
+            <ul class="list-disc list-inside text-gray-400 mb-4">
+                <li>Выберите интересующий вас опрос из списка доступных.</li>
+                <li>Ответьте на все вопросы и отправьте свои ответы.</li>
+                <li>Получите результаты сразу после завершения опроса.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold text-white mb-4">Анализ результатов</h2>
+            <p class="text-gray-400 mb-4">После завершения опроса вы можете анализировать собранные данные с помощью наших инструментов аналитики, которые помогут вам получить ценные инсайты и принять обоснованные решения.</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500 mb-2">© 2024 Онлайн Опросы и Тесты. Все права защищены.</p>
+            <p class="text-gray-500">Сделано с душой <i class="fas fa-heart"></i></p>
+        </div>
+    </footer>
+    <a href="{% url 'home' %}" class="fixed bottom-4 left-4 bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Назад
+    </a>
+</body>
+</html>

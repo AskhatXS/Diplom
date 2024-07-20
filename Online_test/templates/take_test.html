@@ -2,40 +2,129 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ test.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        .answers {
+            margin-top: 10px;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .answers img {
+            max-width: 50px;
+            height: auto;
+            margin-left: 10px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .messages {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .messages li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .messages .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .messages .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ test.title }}</h1>
-    <p>{{ test.description }}</p>
+    <div class="container">
+        <h1>{{ test.title }}</h1>
+        <p>{{ test.description }}</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {% for question in questions %}
-            <div>
-                <p>{{ question.question }}</p>
-                {% if question.image %}
-                    <img src="{{ question.image.url }}" alt="Изображение вопроса">
-                {% endif %}
-                {% for answer in question.answers.all %}
-                    <label>
-                        <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
-                        {{ answer.answer_text }}
-                        {% if answer.answer_img %}
-                            <img src="{{ answer.answer_img.url }}" alt="Изображение ответа">
-                        {% endif %}
-                    </label><br>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        <button type="submit">Отправить ответы</button>
-    </form>
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <form method="post">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="question">
+                    <p>{{ question.question }}</p>
+                    {% if question.image %}
+                        <img src="{{ question.image.url }}" alt="Изображение вопроса">
+                    {% endif %}
+                    <div class="answers">
+                        {% for answer in question.answers.all %}
+                            <label>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
+                                {{ answer.answer_text }}
+                                {% if answer.answer_img %}
+                                    <img src="{{ answer.answer_img.url }}" alt="Изображение ответа">
+                                {% endif %}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
-    {% endif %}
+            <button type="submit">Отправить ответы</button>
+        </form>
+
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
 </body>
 </html>

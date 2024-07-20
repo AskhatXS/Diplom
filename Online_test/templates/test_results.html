@@ -2,12 +2,59 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат теста {{ test.title }} - {{ user.username }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            color: #007BFF;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        a {
+            display: inline-block;
+            text-align: center;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Результат теста "{{ test.title }}" для пользователя {{ user.username }}</h1>
-    <p>Результат: {{ result.score }}%</p>
-    <p>Дата завершения: {{ result.completed_at }}</p>
-    <a href="{% url 'test_detail' test.id %}">Пройти тест снова</a>
+    <div class="container">
+        <h1>Результат теста "{{ test.title }}" для пользователя {{ user.username }}</h1>
+        <p>Результат: {{ result.score }}%</p>
+        <p>Дата завершения: {{ result.completed_at }}</p>
+        <a href="{% url 'test_list' %}">На главную</a>
+    </div>
 </body>
 </html>

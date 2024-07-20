@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,15 +31,9 @@
                     <h3 class="text-gray-500 text-xs uppercase tracking-wider">Функциональность</h3>
                     <ul class="mt-2">
                         <li class="mb-4">
-                            <a href="{% url 'profile' %}" class="flex items-center text-gray-700">
-                                <span class="mr-2"><i class="fas fa-user-cog"></i></span>
-                                Настройка профиля
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="{% url 'about_us' %}" class="flex items-center text-gray-700">
+                            <a href="{% url 'about_us2' %}" class="flex items-center text-gray-700">
                                 <span class="mr-2"><i class="fas fa-receipt"></i></span>
-                                Поддержать нас
+                                О нас
                             </a>
                         </li>
                     </ul>
@@ -56,6 +50,12 @@
                     </ul>
                 </div>
             </nav>
+            <div class="mt-8">
+                <a href="{% url 'logout' %}" class="flex items-center text-gray-700">
+                    <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>
+                    Выйти
+                </a>
+            </div>
         </aside>
 
         <!-- Main content -->
@@ -63,10 +63,7 @@
             <!-- Top Bar -->
             <div class="flex items-center justify-between mb-6">
                 <div class="text-xl font-semibold text-gray-800">TestHub</div>
-                <div class="flex items-center space-x-4">
-                    <img src="{{ profile.profile_pic.url }}" class="w-10 h-10 rounded-full border-2 border-gray-300" >
-                    <div class="text-gray-800 font-semibold">{{ profile.user.username }}</div>
-                </div>
+                <!-- Удалено: изображение профиля и имя пользователя -->
             </div>
             <!-- Search Bar -->
             <div class="relative mb-6">
@@ -81,7 +78,7 @@
                         <h2 class="text-2xl font-bold">TestHub поможет вам создать первый тест!</h2>
                         <p class="mt-2">Создавайте и управляйте тестами легко и быстро с помощью нашего удобного интерфейса. Начните уже сегодня и сделайте ваш образовательный процесс более интерактивным и эффективным.</p>
                     </div>
-                    <button class="bg-white text-blue-900 px-4 py-2 rounded">Создать новый тест</button>
+                    <a href="{% url 'create_test' %}" class="bg-white text-blue-900 px-4 py-2 rounded font-semibold">Создать новый тест</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Подробнее о функционале сайта</h3>
@@ -90,7 +87,7 @@
                             <input type="checkbox" class="ml-2" checked>
                             <span class="text-sm ml-4">Тестовая среда</span>
                         </div>
-                        <button class="bg-white text-blue-900 px-4 py-2 rounded">Посмотреть документацию</button>
+                        <a href="{% url 'document' %}" class="flex items-center text-white">Посмотреть документацию</a>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
