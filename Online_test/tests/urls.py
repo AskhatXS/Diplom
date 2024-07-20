@@ -29,6 +29,7 @@ urlpatterns = [
     path('about_survey/', views.survey, name='about_survey'),
     path('about_us2/', views.about_us2, name='about_us2'),
 ]
+#efq
 
 
 
